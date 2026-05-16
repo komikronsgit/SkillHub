@@ -15,7 +15,7 @@ struct DataManager{
         return container
     }()
     
-    func createSkillPost(availability: String, category: String, contactEmail: String, createdAt: Date, postDescription: String, title: String) -> SkillPost? {
+    func createSkillPost(availability: String, category: String, contactEmail: String, createdAt: Date, postDescription: String, title: String, user: User) -> SkillPost? {
         let context = persistentContainer.viewContext
         
         let skillPost = NSEntityDescription.insertNewObject(forEntityName: "SkillPost", into: context) as! SkillPost
@@ -26,6 +26,7 @@ struct DataManager{
         skillPost.createdAt = createdAt
         skillPost.postDescription = postDescription
         skillPost.title = title
+        skillPost.user = user
         
         do {
             try context.save()
