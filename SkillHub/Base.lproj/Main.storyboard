@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0vF-b5-vTj">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
@@ -12,7 +12,7 @@
         <!--Sign In View Controller-->
         <scene sceneID="dIM-jY-9Fm">
             <objects>
-                <viewController title="Sign In View Controller" id="ng4-6b-QLv" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignIn" title="Sign In View Controller" id="ng4-6b-QLv" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5Wh-4t-7hF">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -63,7 +63,7 @@
                                     <constraint firstAttribute="height" constant="50" id="dVf-Ap-gcv"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Sign in" cornerStyle="large">
+                                <buttonConfiguration key="configuration" style="filled" title="Log in" cornerStyle="large">
                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
                                 </buttonConfiguration>
                             </button>
@@ -107,22 +107,76 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1DK-ys-rew" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2160" y="-1485"/>
+            <point key="canvasLocation" x="2361" y="-771"/>
         </scene>
-        <!--View Controller-->
+        <!--Splash View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Splash" title="Splash View Controller" id="BYZ-38-t0r" customClass="SplashViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lvO-OH-66B">
+                                <rect key="frame" x="76" y="162" width="240" height="240"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="240" id="TID-AW-WY1"/>
+                                    <constraint firstAttribute="width" constant="240" id="YR1-Rb-lNH"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lAQ-lg-wFk">
+                                <rect key="frame" x="16" y="716" width="361" height="68"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="361" id="flP-V4-J3X"/>
+                                    <constraint firstAttribute="height" constant="68" id="zWG-3z-Zdp"/>
+                                </constraints>
+                                <color key="tintColor" red="0.24013783883817999" green="0.26054917843234882" blue="0.63184600515463918" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Get Started" cornerStyle="large">
+                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="getStartedTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tfH-cQ-Diy"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SkillHub" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Jh-UN-6e9">
+                                <rect key="frame" x="105" y="443" width="182" height="54"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="45"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Learn, Teach, Grow Together" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="the-RK-yqp">
+                                <rect key="frame" x="43" y="517" width="307" height="29"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lAQ-lg-wFk" secondAttribute="trailing" constant="16" id="817-K3-xWH"/>
+                            <constraint firstItem="lAQ-lg-wFk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="LdW-R8-chh"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="the-RK-yqp" secondAttribute="trailing" constant="43" id="SzE-3w-z3s"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lvO-OH-66B" secondAttribute="trailing" constant="77" id="UHI-DC-gf3"/>
+                            <constraint firstItem="2Jh-UN-6e9" firstAttribute="top" secondItem="lvO-OH-66B" secondAttribute="bottom" constant="41" id="YBE-uS-jLN"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2Jh-UN-6e9" secondAttribute="trailing" constant="106" id="ZZD-SX-tbr"/>
+                            <constraint firstItem="the-RK-yqp" firstAttribute="top" secondItem="2Jh-UN-6e9" secondAttribute="bottom" constant="20" id="cvA-SR-xOj"/>
+                            <constraint firstItem="lvO-OH-66B" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="dge-hc-5tN"/>
+                            <constraint firstItem="lvO-OH-66B" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="76" id="eyu-9l-bqk"/>
+                            <constraint firstItem="lAQ-lg-wFk" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="hor-D2-jlD"/>
+                            <constraint firstItem="the-RK-yqp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="43" id="r04-NW-PSn"/>
+                            <constraint firstItem="2Jh-UN-6e9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="105" id="xOr-T0-0Q2"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Qm7-9N-6pz"/>
+                    <connections>
+                        <outlet property="logoImageView" destination="lvO-OH-66B" id="DLr-yF-GGm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2160" y="-771"/>
+            <point key="canvasLocation" x="1569" y="-771"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="Xwt-YS-etp">
@@ -761,7 +815,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EX3-e1-ZDy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2941" y="-771"/>
+            <point key="canvasLocation" x="3866.4122137404579" y="-771.12676056338034"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="Ny6-Zc-WbD">
@@ -828,7 +882,7 @@
                                     <constraint firstAttribute="height" constant="50" id="4aU-NH-z47"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Sign in" cornerStyle="large">
+                                <buttonConfiguration key="configuration" style="filled" title="Create Account" cornerStyle="large">
                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
                                 </buttonConfiguration>
                             </button>
@@ -895,7 +949,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aFU-P0-RCh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2940" y="-1485"/>
+            <point key="canvasLocation" x="3153.4351145038167" y="-771.12676056338034"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="f8g-lo-GVF">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0vF-b5-vTj" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="VSB-6v-qky">
+                        <rect key="frame" x="0.0" y="118" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="tyI-uz-6mh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p5u-gm-a0D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="809.92366412213732" y="-771.12676056338034"/>
         </scene>
     </scenes>
     <resources>
@@ -919,10 +991,10 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPurpleColor">
-            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
