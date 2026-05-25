@@ -226,6 +226,9 @@
                                             <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
                                             <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="marketplaceTapped:" destination="AC9-Ey-Puy" eventType="touchUpInside" id="W5T-EL-kkF"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ecS-Zw-Rvt">
                                         <rect key="frame" x="195.66666666666663" y="12" width="165.33333333333337" height="76"/>
@@ -234,6 +237,9 @@
                                         <buttonConfiguration key="configuration" style="filled" image="sparkles" catalog="system" imagePlacement="top" title="AI Assistant" imagePadding="20" cornerStyle="medium">
                                             <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="aiTapped:" destination="AC9-Ey-Puy" eventType="touchUpInside" id="lqX-1p-QNL"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -293,7 +299,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ebm-VR-anP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1834.3511450381679" y="-35.211267605633807"/>
+            <point key="canvasLocation" x="1836" y="-35"/>
         </scene>
         <!--Marketplace View Controller-->
         <scene sceneID="4ep-9C-dFs">
@@ -359,6 +365,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Marketplace" image="building.columns.fill" catalog="system" selectedImage="building.columns" id="PqE-Ab-Z7X"/>
+                    <navigationItem key="navigationItem" id="yQh-ij-FA4"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dPa-Ss-Z1x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -813,7 +820,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="ub2-Rb-qnz">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="x9v-Od-aFn" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabBarController" automaticallyAdjustsScrollViewInsets="NO" id="x9v-Od-aFn" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="uno-02-Oqs">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -1054,10 +1061,10 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPurpleColor">
-            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -20,7 +20,6 @@ class SignInViewController: UIViewController {
 
     @IBAction func loginTapped(_ sender: UIButton) {
 
-        // Check empty fields
         guard let email = emailTextField.text,
               let password = passwordTextField.text,
               !email.isEmpty,
@@ -33,36 +32,34 @@ class SignInViewController: UIViewController {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
         let request: NSFetchRequest<User> = User.fetchRequest()
-
         request.predicate = NSPredicate(format: "email == %@ AND password == %@", email, password)
 
         do {
-
             let results = try context.fetch(request)
 
-            // User exists
             if let user = results.first {
 
-                // Save user info
                 UserDefaults.standard.set(user.name, forKey: "username")
+                UserDefaults.standard.set(user.email, forKey: "userEmail")
 
                 print("Login Successful")
                 print("Logged in user: \(user.name ?? "")")
+                print("Logged in email: \(user.email ?? "")")
 
-                // Go to Home screen
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
-                let homeVC = storyboard.instantiateViewController(withIdentifier: "Home")
+                let tabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarController") as! UITabBarController
 
-                navigationController?.setViewControllers([homeVC], animated: true)
+                tabBarVC.selectedIndex = 0
+                tabBarVC.modalPresentationStyle = .fullScreen
+
+                present(tabBarVC, animated: true)
 
             } else {
-
                 showAlert(message: "Invalid email or password")
             }
 
         } catch {
-
             print("Core Data Fetch Error")
         }
     }
@@ -76,15 +73,20 @@ class SignInViewController: UIViewController {
         navigationController?.pushViewController(signUpVC, animated: true)
     }
 
-    // Alert Function
     func showAlert(message: String) {
 
-        let alert = UIAlertController(title: "SkillHub",
-                                      message: message,
-                                      preferredStyle: .alert)
+        let alert = UIAlertController(
+            title: "SkillHub",
+            message: message,
+            preferredStyle: .alert
+        )
 
-        alert.addAction(UIAlertAction(title: "OK",
-                                      style: .default))
+        alert.addAction(
+            UIAlertAction(
+                title: "OK",
+                style: .default
+            )
+        )
 
         present(alert, animated: true)
     }
