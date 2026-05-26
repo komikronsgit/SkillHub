@@ -17,8 +17,8 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let name = UserDefaults.standard.string(forKey: "username")
-
+        let name: String? = UserDefaults.standard.string(forKey: "username")
+   
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let request: NSFetchRequest<User> = User.fetchRequest()
         request.predicate = NSPredicate(format: "name == %@", name!)
@@ -36,4 +36,12 @@ class ProfileViewController: UIViewController {
         }
         
     }
+    
+    @IBAction func openEditProfile(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let createVC = storyboard.instantiateViewController(withIdentifier: "EditProfile")
+        createVC.modalPresentationStyle = .fullScreen
+        present(createVC, animated: true)
+    }
+
 }
