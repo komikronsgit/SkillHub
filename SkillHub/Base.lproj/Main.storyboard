@@ -730,6 +730,34 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b1X-9E-6li" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1836" y="651"/>
+        </scene>
+        <!--Skill Details View Controller-->
+        <scene sceneID="Zhp-2u-Pt1">
+            <objects>
+                <viewController storyboardIdentifier="details" title="Skill Details View Controller" id="ygM-iV-5Vm" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7Hy-6r-qNL">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Skill Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ygi-FZ-TIG">
+                                <rect key="frame" x="16" y="118" width="130" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m9w-zJ-62G">
+                                <rect key="frame" x="16" y="187" width="100" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="F2g-RE-lca"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tLU-b1-gV4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
             <point key="canvasLocation" x="2554.9618320610684" y="650.70422535211276"/>
         </scene>
         <!--Settings View Controller-->
@@ -831,7 +859,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bwP-gZ-p83" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4020.6106870229005" y="650.70422535211276"/>
+            <point key="canvasLocation" x="3288" y="651"/>
         </scene>
         <!--Edit Profile View Controller-->
         <scene sceneID="WGu-Wa-R4v">
@@ -990,7 +1018,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jOK-jK-XSF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4783.9694656488546" y="650.70422535211276"/>
+            <point key="canvasLocation" x="4021" y="651"/>
         </scene>
         <!--Change Password View Controller-->
         <scene sceneID="8BY-UA-4Fh">
@@ -1082,6 +1110,7 @@
                             <constraint firstItem="YvO-4u-5CE" firstAttribute="leading" secondItem="8Zk-kA-RoG" secondAttribute="leading" constant="16" id="zrq-MF-vvU"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="H0M-uN-hAg"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WfH-UZ-Pfj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1372,10 +1401,11 @@
                             <constraint firstItem="wuJ-ke-uZc" firstAttribute="trailing" secondItem="md1-bN-3G8" secondAttribute="trailing" constant="222" id="s0L-Lo-TAW"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="PHY-W2-QxZ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M9X-fu-ADn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3287.7862595419847" y="650.70422535211276"/>
+            <point key="canvasLocation" x="4724" y="651"/>
         </scene>
     </scenes>
     <resources>
