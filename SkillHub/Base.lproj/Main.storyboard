@@ -304,7 +304,7 @@
         <!--Marketplace View Controller-->
         <scene sceneID="4ep-9C-dFs">
             <objects>
-                <viewController title="Marketplace View Controller" id="HS8-5u-qXH" sceneMemberID="viewController">
+                <viewController title="Marketplace View Controller" id="HS8-5u-qXH" customClass="MarketplaceViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jQa-L5-OJV">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -344,6 +344,9 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" image="plus" catalog="system" cornerStyle="capsule"/>
+                                <connections>
+                                    <action selector="addSkillTapped:" destination="HS8-5u-qXH" eventType="touchUpInside" id="Uvt-j1-LCX"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="71Y-MU-c79"/>
@@ -366,6 +369,9 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Marketplace" image="building.columns.fill" catalog="system" selectedImage="building.columns" id="PqE-Ab-Z7X"/>
                     <navigationItem key="navigationItem" id="yQh-ij-FA4"/>
+                    <connections>
+                        <outlet property="tableView" destination="F1C-dG-rek" id="k67-fd-wvp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dPa-Ss-Z1x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -590,7 +596,7 @@
         <!--Create View Controller-->
         <scene sceneID="zYB-PX-lSr">
             <objects>
-                <viewController title="Create View Controller" id="Vbb-8I-UQx" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateSkillPost" title="Create View Controller" id="Vbb-8I-UQx" customClass="SkillPostViewController" customModule="SkillHub" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bxA-nf-uog">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -604,6 +610,9 @@
                                 <buttonConfiguration key="configuration" style="filled" title="Post Skill" cornerStyle="large">
                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="postSkillTapped:" destination="Vbb-8I-UQx" eventType="touchUpInside" id="l3Z-jK-ehm"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Skill Post" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DIq-Lp-K9T">
                                 <rect key="frame" x="16" y="118" width="183" height="29"/>
@@ -655,6 +664,19 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8k4-lj-geW">
+                                <rect key="frame" x="16" y="507" width="361" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g., Programming, Math, Languages" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0UQ-0f-9jf">
+                                <rect key="frame" x="16" y="525" width="361" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hZx-vD-k03"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -691,6 +713,13 @@
                             <constraint firstItem="hZx-vD-k03" firstAttribute="trailing" secondItem="Hzb-Wy-gIz" secondAttribute="trailing" constant="16" id="wMC-Uu-F3c"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="availabilityTextField" destination="gUd-WS-oaZ" id="TE8-wx-ztJ"/>
+                        <outlet property="categoryTextField" destination="0UQ-0f-9jf" id="BHe-1N-BYB"/>
+                        <outlet property="contactEmailTextField" destination="ZU9-Fr-DPk" id="M4T-AY-YKG"/>
+                        <outlet property="descriptionTextField" destination="vcd-gH-8uA" id="adK-pB-mxf"/>
+                        <outlet property="titleTextField" destination="Hzb-Wy-gIz" id="pUw-gi-1by"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b1X-9E-6li" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
