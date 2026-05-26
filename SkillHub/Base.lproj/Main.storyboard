@@ -476,7 +476,7 @@
         <!--Profile View Controller-->
         <scene sceneID="H8i-ik-6mB">
             <objects>
-                <viewController title="Profile View Controller" id="ceM-gI-Thq" customClass="ProfileViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Profile" title="Profile View Controller" id="ceM-gI-Thq" customClass="ProfileViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ta2-jd-kVk">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -498,6 +498,9 @@
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="gearshape" catalog="system" cornerStyle="capsule"/>
+                                        <connections>
+                                            <action selector="openEditProfile:" destination="ceM-gI-Thq" eventType="touchUpInside" id="L5C-Dc-bUA"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -578,8 +581,8 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" image="person.fill" catalog="system" selectedImage="person" id="ycH-1k-AE2"/>
                     <connections>
-                        <outlet property="about_me_lable" destination="qCm-b9-Zei" id="66V-pp-zm4"/>
-                        <outlet property="name_lable" destination="4zS-XX-QpS" id="MLH-9w-Qcu"/>
+                        <outlet property="aboutMeLable" destination="qCm-b9-Zei" id="crm-bn-erc"/>
+                        <outlet property="nameLable" destination="4zS-XX-QpS" id="AU0-QE-jpT"/>
                         <outlet property="view" destination="4zS-XX-QpS" id="agj-Qx-bhi"/>
                     </connections>
                 </viewController>
@@ -699,7 +702,7 @@
         <!--Edit Profile View Controller-->
         <scene sceneID="WGu-Wa-R4v">
             <objects>
-                <viewController title="Edit Profile View Controller" id="3Re-qW-TID" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EditProfile" title="Edit Profile View Controller" id="3Re-qW-TID" customClass="EditProfileViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fmn-gf-btF">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -769,6 +772,9 @@
                                 <buttonConfiguration key="configuration" style="filled" title="Save Profile" cornerStyle="large">
                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="saveEdit:" destination="3Re-qW-TID" eventType="touchUpInside" id="BT8-tB-cvC"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Bio" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zsn-0J-BfW">
                                 <rect key="frame" x="16" y="518" width="361" height="34"/>
@@ -817,6 +823,14 @@
                             <constraint firstItem="1PB-1g-19A" firstAttribute="trailing" secondItem="x42-JA-pd8" secondAttribute="trailing" constant="16" id="zgi-TG-RUp"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Kdt-Bp-9pe"/>
+                    <connections>
+                        <outlet property="bioInput" destination="zsn-0J-BfW" id="IHt-Dp-owG"/>
+                        <outlet property="emailInput" destination="x42-JA-pd8" id="btB-TA-Vj5"/>
+                        <outlet property="nameInput" destination="86D-jH-M22" id="y2e-rH-wYO"/>
+                        <outlet property="programInput" destination="Uqc-FF-7Es" id="J5d-Zk-fp9"/>
+                        <outlet property="schoolInput" destination="pq3-Oz-y1d" id="5Ac-Gi-SU2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jOK-jK-XSF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1066,10 +1080,10 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPurpleColor">
-            <color red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

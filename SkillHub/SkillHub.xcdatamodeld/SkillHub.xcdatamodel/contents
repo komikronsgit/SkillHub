@@ -14,5 +14,7 @@
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String"/>
+        <attribute name="program" optional="YES" attributeType="String"/>
+        <attribute name="school" optional="YES" attributeType="String"/>
     </entity>
 </model>
