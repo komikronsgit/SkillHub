@@ -476,7 +476,7 @@
         <!--Profile View Controller-->
         <scene sceneID="H8i-ik-6mB">
             <objects>
-                <viewController title="Profile View Controller" id="ceM-gI-Thq" sceneMemberID="viewController">
+                <viewController title="Profile View Controller" id="ceM-gI-Thq" customClass="ProfileViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ta2-jd-kVk">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -577,6 +577,11 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" image="person.fill" catalog="system" selectedImage="person" id="ycH-1k-AE2"/>
+                    <connections>
+                        <outlet property="about_me_lable" destination="qCm-b9-Zei" id="66V-pp-zm4"/>
+                        <outlet property="name_lable" destination="4zS-XX-QpS" id="MLH-9w-Qcu"/>
+                        <outlet property="view" destination="4zS-XX-QpS" id="agj-Qx-bhi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VoR-29-xos" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
