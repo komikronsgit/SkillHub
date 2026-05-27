@@ -1025,7 +1025,7 @@
         <!--Change Password View Controller-->
         <scene sceneID="8BY-UA-4Fh">
             <objects>
-                <viewController storyboardIdentifier="change" title="Change Password View Controller" id="wC9-ab-cCH" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="change" title="Change Password View Controller" id="wC9-ab-cCH" customClass="ChangePasswordViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J9n-X0-uGZ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1057,7 +1057,7 @@
                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="createAccountTapped:" destination="gQV-Lg-PdO" eventType="touchUpInside" id="yjU-Za-BUd"/>
+                                    <action selector="savePassword:" destination="wC9-ab-cCH" eventType="touchUpInside" id="cJh-rN-6Ky"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Blj-Ox-2Uk">
@@ -1113,6 +1113,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="H0M-uN-hAg"/>
+                    <connections>
+                        <outlet property="confirmPasswordInput" destination="3Th-BH-FFh" id="gFJ-5F-8h5"/>
+                        <outlet property="newPasswordInput" destination="3p2-3R-Hzi" id="2Pl-bf-CNc"/>
+                        <outlet property="oldPasswordInput" destination="KQN-f6-2Pk" id="TBS-dl-qd4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WfH-UZ-Pfj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
