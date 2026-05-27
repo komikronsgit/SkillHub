@@ -41,6 +41,11 @@ class ChangePasswordViewController: UIViewController {
             
             try context.save()
             
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let createVC = storyboard.instantiateViewController(withIdentifier: "privacy")
+            createVC.modalPresentationStyle = .fullScreen
+            present(createVC, animated: true)
+            
         } catch let error {
             print("Failed to update user password: \(error)")
         }

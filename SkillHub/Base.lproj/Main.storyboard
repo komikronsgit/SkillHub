@@ -765,7 +765,7 @@
         <!--Settings View Controller-->
         <scene sceneID="8Kl-p6-Y5D">
             <objects>
-                <viewController storyboardIdentifier="settings" title="Settings View Controller" id="SQM-2A-6ZV" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="settings" title="Settings View Controller" id="SQM-2A-6ZV" customClass="SettingsViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="W8a-di-reS">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -787,6 +787,9 @@
                                             <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="editProfileTapped:" destination="SQM-2A-6ZV" eventType="touchUpInside" id="234-O4-qqJ"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oDb-DM-x9G">
                                         <rect key="frame" x="191.66666666666663" y="0.0" width="169.33333333333337" height="70"/>
@@ -796,6 +799,9 @@
                                             <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="privacySecurityTapped:" destination="SQM-2A-6ZV" eventType="touchUpInside" id="JFR-OS-Rao"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -1348,7 +1354,7 @@
         <!--Privacy View Controller-->
         <scene sceneID="j7H-ME-eJX">
             <objects>
-                <viewController storyboardIdentifier="privacy" title="Privacy View Controller" id="uDM-Vj-TZ3" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="privacy" title="Privacy View Controller" id="uDM-Vj-TZ3" customClass="PrivacyViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gwe-Wn-g5s">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1389,6 +1395,9 @@
                                     <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="changePasswordTapped:" destination="uDM-Vj-TZ3" eventType="touchUpInside" id="Bta-J9-f2e"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="wuJ-ke-uZc"/>
