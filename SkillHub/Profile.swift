@@ -12,6 +12,8 @@ import CoreData
 class ProfileViewController: UIViewController {
 
     @IBOutlet weak var nameLable: UILabel!
+    @IBOutlet weak var programLable: UILabel!
+    @IBOutlet weak var schoolLable: UILabel!
     @IBOutlet weak var aboutMeLable: UITextView!
     
     override func viewDidLoad() {
@@ -28,6 +30,8 @@ class ProfileViewController: UIViewController {
             
             if let user = results.first {
                 nameLable.text = user.name
+                programLable.text = user.program
+                schoolLable.text = user.school
                 aboutMeLable.text = user.aboutMe
             }
             
