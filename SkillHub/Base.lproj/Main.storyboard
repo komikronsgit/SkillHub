@@ -380,7 +380,7 @@
         <!--AI View Controller-->
         <scene sceneID="fr0-0M-eFJ">
             <objects>
-                <viewController title="AI View Controller" id="dFs-L1-6HU" sceneMemberID="viewController">
+                <viewController title="AI View Controller" id="dFs-L1-6HU" customClass="AIViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bU5-il-GAu">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -407,28 +407,45 @@
                                 <rect key="frame" x="16" y="240.66666666666663" width="361" height="250"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kwj-Cd-IZM">
-                                        <rect key="frame" x="0.0" y="0.0" width="361" height="70"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="361" height="47.666666666666664"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="list.bullet.clipboard" catalog="system" title="Summarize Notes" imagePadding="10" cornerStyle="large">
                                             <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="summarizeTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="xEH-fo-oIY"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jWf-0D-2RV">
-                                        <rect key="frame" x="0.0" y="90.000000000000028" width="361" height="70"/>
+                                        <rect key="frame" x="0.0" y="67.666666666666657" width="361" height="47.333333333333343"/>
                                         <color key="tintColor" systemColor="systemYellowColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="lightbulb" catalog="system" title="Explain Simply" imagePadding="10" cornerStyle="large">
                                             <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="explainSimplyTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="Xab-2z-gdP"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWy-KW-rPb">
-                                        <rect key="frame" x="0.0" y="180.00000000000003" width="361" height="70"/>
+                                        <rect key="frame" x="0.0" y="135.00000000000003" width="361" height="47.666666666666657"/>
                                         <color key="tintColor" systemColor="systemPurpleColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="brain.head.profile" catalog="system" title="Quiz Generator" imagePadding="10" cornerStyle="large">
                                             <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="quizGeneratorTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="IRc-N4-8MS"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nop-N1-KSK">
+                                        <rect key="frame" x="0.0" y="202.66666666666666" width="361" height="47.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="No file selected"/>
+                                        <connections>
+                                            <action selector="uploadNotesTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="vqf-Cr-p9k"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -451,6 +468,12 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Results will appear here..." translatesAutoresizingMaskIntoConstraints="NO" id="IPD-Hi-zsg">
+                                <rect key="frame" x="26" y="546" width="340" height="136"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ei3-f7-MKx"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -474,6 +497,10 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="AI" image="sparkles" catalog="system" selectedImage="sparkles" id="5C3-X1-ea0"/>
+                    <connections>
+                        <outlet property="resultTextView" destination="IPD-Hi-zsg" id="8i6-7F-CMa"/>
+                        <outlet property="uploadFileButton" destination="Nop-N1-KSK" id="hYn-V9-Ixy"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J5t-Ps-UVd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
