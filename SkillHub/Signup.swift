@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import CoreData
 
 class SignUpViewController: UIViewController {
 
@@ -21,45 +20,26 @@ class SignUpViewController: UIViewController {
     }
 
     @IBAction func createAccountTapped(_ sender: UIButton) {
+        Task {
+            guard let name = nameTextField.text,
+                  let email = emailTextField.text,
+                  let password = passwordTextField.text,
+                  let confirmPassword = confirmPasswordTextField.text,
+                  !name.isEmpty,
+                  !email.isEmpty,
+                  !password.isEmpty,
+                  !confirmPassword.isEmpty
+            else {
+                showAlert(message: "Please fill all fields")
+                return
+            }
 
-        guard let name = nameTextField.text,
-              let email = emailTextField.text,
-              let password = passwordTextField.text,
-              let confirmPassword = confirmPasswordTextField.text,
-              !name.isEmpty,
-              !email.isEmpty,
-              !password.isEmpty,
-              !confirmPassword.isEmpty else {
+            if password != confirmPassword {
 
-            showAlert(message: "Please fill all fields")
-            return
-        }
-
-        if password != confirmPassword {
-
-            showAlert(message: "Passwords do not match")
-            return
-        }
-
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
-        let user = User(context: context)
-
-        user.name = name
-        user.email = email
-        user.password = password
-
-        do {
-
-            try context.save()
-
-            showAlert(message: "Account Created Successfully")
-
-            navigationController?.popViewController(animated: true)
-
-        } catch {
-
-            print("Failed to save user")
+                showAlert(message: "Passwords do not match")
+                return
+            }
+            await postUser(name: name, email: email, password: password, about_me: "", program: "", school: "")
         }
     }
 

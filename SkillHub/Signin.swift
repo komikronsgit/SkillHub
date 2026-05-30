@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import CoreData
 
 class SignInViewController: UIViewController {
 
@@ -19,33 +18,24 @@ class SignInViewController: UIViewController {
     }
 
     @IBAction func loginTapped(_ sender: UIButton) {
+        Task {
+            guard let email = emailTextField.text,
+                  let password = passwordTextField.text,
+                  !email.isEmpty,
+                  !password.isEmpty else {
 
-        guard let email = emailTextField.text,
-              let password = passwordTextField.text,
-              !email.isEmpty,
-              !password.isEmpty else {
-
-            showAlert(message: "Please enter email and password")
-            return
-        }
-
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
-        let request: NSFetchRequest<User> = User.fetchRequest()
-        request.predicate = NSPredicate(format: "email == %@ AND password == %@", email, password)
-
-        do {
-            let results = try context.fetch(request)
-
-            if let user = results.first {
-
-                UserDefaults.standard.set(user.name, forKey: "username")
-                UserDefaults.standard.set(user.email, forKey: "userEmail")
-
-                print("Login Successful")
-                print("Logged in user: \(user.name ?? "")")
-                print("Logged in email: \(user.email ?? "")")
-
+                showAlert(message: "Please enter email and password")
+                return
+            }
+            
+            let nameAndPassword = await getUsersNameAndPasswordByEmail(email: email)
+            let name = nameAndPassword[0]
+            let correctPassword = nameAndPassword[1]
+            
+            if password == correctPassword {
+                UserDefaults.standard.set(name, forKey: "username")
+                UserDefaults.standard.set(password, forKey: "userEmail")
+                
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
                 let tabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarController") as! UITabBarController
@@ -54,13 +44,9 @@ class SignInViewController: UIViewController {
                 tabBarVC.modalPresentationStyle = .fullScreen
 
                 present(tabBarVC, animated: true)
-
             } else {
                 showAlert(message: "Invalid email or password")
             }
-
-        } catch {
-            print("Core Data Fetch Error")
         }
     }
 
