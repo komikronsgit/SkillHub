@@ -36,7 +36,7 @@ func getUsersNameAndPasswordByEmail(email: String) async -> [String] {
 }
 
 func postUser(name: String, email: String, password: String, about_me: String, program: String, school: String) async -> Void {
-    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: "YOUR_SECRET_KEY")
+    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: "SECRET_KEY")
     
     struct User: Encodable {
         let name: String
