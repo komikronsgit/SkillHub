@@ -380,7 +380,7 @@
         <!--AI View Controller-->
         <scene sceneID="fr0-0M-eFJ">
             <objects>
-                <viewController title="AI View Controller" id="dFs-L1-6HU" sceneMemberID="viewController">
+                <viewController title="AI View Controller" id="dFs-L1-6HU" customClass="AIViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bU5-il-GAu">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -407,28 +407,45 @@
                                 <rect key="frame" x="16" y="240.66666666666663" width="361" height="250"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kwj-Cd-IZM">
-                                        <rect key="frame" x="0.0" y="0.0" width="361" height="70"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="361" height="47.666666666666664"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="list.bullet.clipboard" catalog="system" title="Summarize Notes" imagePadding="10" cornerStyle="large">
                                             <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="summarizeTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="xEH-fo-oIY"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jWf-0D-2RV">
-                                        <rect key="frame" x="0.0" y="90.000000000000028" width="361" height="70"/>
+                                        <rect key="frame" x="0.0" y="67.666666666666657" width="361" height="47.333333333333343"/>
                                         <color key="tintColor" systemColor="systemYellowColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="lightbulb" catalog="system" title="Explain Simply" imagePadding="10" cornerStyle="large">
                                             <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="explainSimplyTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="Xab-2z-gdP"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWy-KW-rPb">
-                                        <rect key="frame" x="0.0" y="180.00000000000003" width="361" height="70"/>
+                                        <rect key="frame" x="0.0" y="135.00000000000003" width="361" height="47.666666666666657"/>
                                         <color key="tintColor" systemColor="systemPurpleColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="brain.head.profile" catalog="system" title="Quiz Generator" imagePadding="10" cornerStyle="large">
                                             <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="quizGeneratorTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="IRc-N4-8MS"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nop-N1-KSK">
+                                        <rect key="frame" x="0.0" y="202.66666666666666" width="361" height="47.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="No file selected"/>
+                                        <connections>
+                                            <action selector="uploadNotesTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="vqf-Cr-p9k"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -451,6 +468,12 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Results will appear here..." translatesAutoresizingMaskIntoConstraints="NO" id="IPD-Hi-zsg">
+                                <rect key="frame" x="26" y="545" width="340" height="136"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ei3-f7-MKx"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -474,10 +497,69 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="AI" image="sparkles" catalog="system" selectedImage="sparkles" id="5C3-X1-ea0"/>
+                    <connections>
+                        <outlet property="resultTextView" destination="IPD-Hi-zsg" id="8i6-7F-CMa"/>
+                        <outlet property="uploadFileButton" destination="Nop-N1-KSK" id="hYn-V9-Ixy"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J5t-Ps-UVd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3287.7862595419847" y="-35.211267605633807"/>
+            <point key="canvasLocation" x="3288" y="-30"/>
+        </scene>
+        <!--AI Chat View Controller-->
+        <scene sceneID="KQK-Gv-I1S">
+            <objects>
+                <viewController storyboardIdentifier="aichat" title="AI Chat View Controller" id="b59-93-NJw" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Tob-vD-lt5">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ShillHub AI" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zdJ-ZF-Fts">
+                                <rect key="frame" x="16" y="118" width="179.33333333333334" height="42"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="35"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="yo5-a9-fuV">
+                                <rect key="frame" x="16" y="749.66666666666663" width="361" height="34.333333333333371"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Ask me anything..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="02e-B9-WVx">
+                                        <rect key="frame" x="0.0" y="0.0" width="311.66666666666669" height="34.333333333333336"/>
+                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yJr-EY-fc1">
+                                        <rect key="frame" x="326.66666666666669" y="0.0" width="34.333333333333314" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" image="paperplane" catalog="system" cornerStyle="capsule"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="QbE-N4-Bl6">
+                                <rect key="frame" x="16" y="160" width="361" height="582"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="kwD-jH-ncZ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="QbE-N4-Bl6" firstAttribute="top" secondItem="zdJ-ZF-Fts" secondAttribute="bottom" id="1YP-W8-H7G"/>
+                            <constraint firstItem="kwD-jH-ncZ" firstAttribute="bottom" secondItem="yo5-a9-fuV" secondAttribute="bottom" id="EAC-Xq-Jwa"/>
+                            <constraint firstItem="QbE-N4-Bl6" firstAttribute="leading" secondItem="kwD-jH-ncZ" secondAttribute="leading" constant="16" id="IDG-8b-UqT"/>
+                            <constraint firstItem="zdJ-ZF-Fts" firstAttribute="top" secondItem="kwD-jH-ncZ" secondAttribute="top" id="KGj-Ws-a2l"/>
+                            <constraint firstItem="kwD-jH-ncZ" firstAttribute="trailing" secondItem="zdJ-ZF-Fts" secondAttribute="trailing" constant="197.66999999999999" id="TMY-TJ-5Gh"/>
+                            <constraint firstItem="kwD-jH-ncZ" firstAttribute="trailing" secondItem="QbE-N4-Bl6" secondAttribute="trailing" constant="16" id="X3d-79-Awn"/>
+                            <constraint firstItem="zdJ-ZF-Fts" firstAttribute="leading" secondItem="kwD-jH-ncZ" secondAttribute="leading" constant="16" id="fee-cy-uoZ"/>
+                            <constraint firstItem="yo5-a9-fuV" firstAttribute="top" secondItem="QbE-N4-Bl6" secondAttribute="bottom" constant="7.6699999999999999" id="hbb-bv-64w"/>
+                            <constraint firstItem="yo5-a9-fuV" firstAttribute="leading" secondItem="kwD-jH-ncZ" secondAttribute="leading" constant="16" id="kxA-w6-CMU"/>
+                            <constraint firstItem="kwD-jH-ncZ" firstAttribute="trailing" secondItem="yo5-a9-fuV" secondAttribute="trailing" constant="16" id="xtW-jT-wR8"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s46-5P-36u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4020.6106870229005" y="-35.211267605633807"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="H8i-ik-6mB">
@@ -596,7 +678,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VoR-29-xos" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4020.6106870229005" y="-35.211267605633807"/>
+            <point key="canvasLocation" x="5320" y="-35"/>
         </scene>
         <!--Create View Controller-->
         <scene sceneID="zYB-PX-lSr">
@@ -1352,7 +1434,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pP5-rG-4eW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4080.1526717557249" y="-771.12676056338034"/>
+            <point key="canvasLocation" x="4021" y="-771"/>
         </scene>
         <!--Privacy View Controller-->
         <scene sceneID="j7H-ME-eJX">
