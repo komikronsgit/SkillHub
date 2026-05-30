@@ -386,38 +386,38 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AI Assistant" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8eI-99-p3o">
-                                <rect key="frame" x="16" y="118" width="196" height="42"/>
+                                <rect key="frame" x="16" y="162" width="196" height="42"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="35"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Personal study companion" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZyZ-tI-bhs">
-                                <rect key="frame" x="16" y="160" width="240" height="20.333333333333343"/>
+                                <rect key="frame" x="16" y="204" width="240" height="20.333333333333343"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quick Actions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="loW-gl-MPv">
-                                <rect key="frame" x="16" y="210.33333333333334" width="110" height="20.333333333333343"/>
+                                <rect key="frame" x="16" y="254.33333333333334" width="110" height="20.333333333333343"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="nFx-Lc-5au">
-                                <rect key="frame" x="16" y="240.66666666666663" width="361" height="250"/>
+                                <rect key="frame" x="16" y="284.66666666666669" width="361" height="250.00000000000006"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kwj-Cd-IZM">
-                                        <rect key="frame" x="0.0" y="0.0" width="361" height="47.666666666666664"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="361" height="70"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="list.bullet.clipboard" catalog="system" title="Summarize Notes" imagePadding="10" cornerStyle="large">
                                             <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="summarizeTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="xEH-fo-oIY"/>
+                                            <action selector="summarizeTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="gY3-aX-IKM"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jWf-0D-2RV">
-                                        <rect key="frame" x="0.0" y="67.666666666666657" width="361" height="47.333333333333343"/>
+                                        <rect key="frame" x="0.0" y="90" width="361" height="70"/>
                                         <color key="tintColor" systemColor="systemYellowColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="lightbulb" catalog="system" title="Explain Simply" imagePadding="10" cornerStyle="large">
@@ -425,26 +425,18 @@
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="explainSimplyTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="Xab-2z-gdP"/>
+                                            <action selector="explainTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="2qH-we-2m2"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWy-KW-rPb">
-                                        <rect key="frame" x="0.0" y="135.00000000000003" width="361" height="47.666666666666657"/>
+                                        <rect key="frame" x="0.0" y="180" width="361" height="70"/>
                                         <color key="tintColor" systemColor="systemPurpleColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="brain.head.profile" catalog="system" title="Quiz Generator" imagePadding="10" cornerStyle="large">
                                             <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="quizGeneratorTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="IRc-N4-8MS"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nop-N1-KSK">
-                                        <rect key="frame" x="0.0" y="202.66666666666666" width="361" height="47.333333333333343"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="No file selected"/>
-                                        <connections>
-                                            <action selector="uploadNotesTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="vqf-Cr-p9k"/>
+                                            <action selector="quizTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="chS-PE-m8q"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -465,13 +457,24 @@
                                         <rect key="frame" x="326.66666666666669" y="0.0" width="34.333333333333314" height="34.333333333333336"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="paperplane" catalog="system" cornerStyle="capsule"/>
+                                        <connections>
+                                            <action selector="openChatTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="aMu-qP-GB1"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Results will appear here..." translatesAutoresizingMaskIntoConstraints="NO" id="IPD-Hi-zsg">
-                                <rect key="frame" x="26" y="545" width="340" height="136"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d7c-u5-m1y">
+                                <rect key="frame" x="16" y="554.66666666666663" width="361" height="34.333333333333371"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Click here to Upload your file"/>
+                                <connections>
+                                    <action selector="uploadNotesTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="VVm-rR-xDy"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Results will appear here..." translatesAutoresizingMaskIntoConstraints="NO" id="IPD-Hi-zsg">
+                                <rect key="frame" x="16" y="599" width="361" height="58"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
@@ -482,6 +485,7 @@
                             <constraint firstItem="Ei3-f7-MKx" firstAttribute="trailing" secondItem="ZyZ-tI-bhs" secondAttribute="trailing" constant="137" id="0DH-jo-XJR"/>
                             <constraint firstItem="nFx-Lc-5au" firstAttribute="centerX" secondItem="bU5-il-GAu" secondAttribute="centerX" id="1X1-Nb-aFD"/>
                             <constraint firstItem="loW-gl-MPv" firstAttribute="leading" secondItem="Ei3-f7-MKx" secondAttribute="leading" constant="16" id="AP2-1H-LFA"/>
+                            <constraint firstItem="fbO-el-7fq" firstAttribute="top" secondItem="IPD-Hi-zsg" secondAttribute="bottom" constant="43.670000000000002" id="CFl-JF-20l"/>
                             <constraint firstItem="Ei3-f7-MKx" firstAttribute="trailing" secondItem="nFx-Lc-5au" secondAttribute="trailing" constant="16" id="DBv-rb-p7p"/>
                             <constraint firstItem="Ei3-f7-MKx" firstAttribute="trailing" secondItem="8eI-99-p3o" secondAttribute="trailing" constant="181" id="DFt-rd-R8n"/>
                             <constraint firstItem="nFx-Lc-5au" firstAttribute="leading" secondItem="Ei3-f7-MKx" secondAttribute="leading" constant="16" id="KNT-DE-Gdb"/>
@@ -490,26 +494,32 @@
                             <constraint firstItem="Ei3-f7-MKx" firstAttribute="bottom" secondItem="fbO-el-7fq" secondAttribute="bottom" id="aAd-tv-K0c"/>
                             <constraint firstItem="ZyZ-tI-bhs" firstAttribute="top" secondItem="8eI-99-p3o" secondAttribute="bottom" id="aI1-EC-4tQ"/>
                             <constraint firstItem="loW-gl-MPv" firstAttribute="top" secondItem="ZyZ-tI-bhs" secondAttribute="bottom" constant="30" id="eD5-e5-tZE"/>
+                            <constraint firstItem="IPD-Hi-zsg" firstAttribute="top" secondItem="d7c-u5-m1y" secondAttribute="bottom" constant="10" id="eLh-rG-GzZ"/>
+                            <constraint firstItem="Ei3-f7-MKx" firstAttribute="trailing" secondItem="IPD-Hi-zsg" secondAttribute="trailing" constant="16" id="fVp-D8-HsM"/>
                             <constraint firstItem="ZyZ-tI-bhs" firstAttribute="leading" secondItem="Ei3-f7-MKx" secondAttribute="leading" constant="16" id="k1x-Nv-Ao4"/>
                             <constraint firstItem="8eI-99-p3o" firstAttribute="leading" secondItem="Ei3-f7-MKx" secondAttribute="leading" constant="16" id="kXf-LT-D9I"/>
                             <constraint firstItem="8eI-99-p3o" firstAttribute="top" secondItem="Ei3-f7-MKx" secondAttribute="top" id="khT-1N-wGM"/>
+                            <constraint firstItem="Ei3-f7-MKx" firstAttribute="trailing" secondItem="d7c-u5-m1y" secondAttribute="trailing" constant="16" id="le6-By-3hX"/>
+                            <constraint firstItem="d7c-u5-m1y" firstAttribute="leading" secondItem="Ei3-f7-MKx" secondAttribute="leading" constant="16" id="mDD-I8-frO"/>
+                            <constraint firstItem="IPD-Hi-zsg" firstAttribute="leading" secondItem="Ei3-f7-MKx" secondAttribute="leading" constant="16" id="mTY-7A-59W"/>
+                            <constraint firstItem="d7c-u5-m1y" firstAttribute="top" secondItem="nFx-Lc-5au" secondAttribute="bottom" constant="20" id="tsK-85-bBp"/>
                             <constraint firstItem="fbO-el-7fq" firstAttribute="leading" secondItem="Ei3-f7-MKx" secondAttribute="leading" constant="16" id="xpa-ec-qQy"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="AI" image="sparkles" catalog="system" selectedImage="sparkles" id="5C3-X1-ea0"/>
+                    <navigationItem key="navigationItem" id="Z6v-uW-kP7"/>
                     <connections>
                         <outlet property="resultTextView" destination="IPD-Hi-zsg" id="8i6-7F-CMa"/>
-                        <outlet property="uploadFileButton" destination="Nop-N1-KSK" id="hYn-V9-Ixy"/>
+                        <outlet property="uploadFileButton" destination="d7c-u5-m1y" id="4sE-iX-Mpa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J5t-Ps-UVd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3288" y="-30"/>
+            <point key="canvasLocation" x="4214.5038167938928" y="-30.281690140845072"/>
         </scene>
         <!--AI Chat View Controller-->
         <scene sceneID="KQK-Gv-I1S">
             <objects>
-                <viewController storyboardIdentifier="aichat" title="AI Chat View Controller" id="b59-93-NJw" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="aichat" title="AI Chat View Controller" id="b59-93-NJw" customClass="AIChatViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Tob-vD-lt5">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -533,6 +543,9 @@
                                         <rect key="frame" x="326.66666666666669" y="0.0" width="34.333333333333314" height="34.333333333333336"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="paperplane" catalog="system" cornerStyle="capsule"/>
+                                        <connections>
+                                            <action selector="sendButtonTapped:" destination="b59-93-NJw" eventType="touchUpInside" id="vrm-tl-6ux"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -556,10 +569,15 @@
                             <constraint firstItem="kwD-jH-ncZ" firstAttribute="trailing" secondItem="yo5-a9-fuV" secondAttribute="trailing" constant="16" id="xtW-jT-wR8"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="messageTextField" destination="02e-B9-WVx" id="TAX-8l-nWj"/>
+                        <outlet property="sendButton" destination="yJr-EY-fc1" id="Sis-y9-Czn"/>
+                        <outlet property="tableView" destination="QbE-N4-Bl6" id="wTj-NV-51N"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s46-5P-36u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4020.6106870229005" y="-35.211267605633807"/>
+            <point key="canvasLocation" x="4947.3282442748086" y="-35.211267605633807"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="H8i-ik-6mB">
@@ -678,7 +696,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VoR-29-xos" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5320" y="-35"/>
+            <point key="canvasLocation" x="6246.5648854961828" y="-35.211267605633807"/>
         </scene>
         <!--Create View Controller-->
         <scene sceneID="zYB-PX-lSr">
@@ -1227,7 +1245,7 @@
                     <connections>
                         <segue destination="AC9-Ey-Puy" kind="relationship" relationship="viewControllers" id="ccZ-CD-9zm"/>
                         <segue destination="HS8-5u-qXH" kind="relationship" relationship="viewControllers" id="gLw-zS-1nE"/>
-                        <segue destination="dFs-L1-6HU" kind="relationship" relationship="viewControllers" id="uu2-8T-knW"/>
+                        <segue destination="X4s-81-5si" kind="relationship" relationship="viewControllers" id="uu2-8T-knW"/>
                         <segue destination="ceM-gI-Thq" kind="relationship" relationship="viewControllers" id="GOf-w6-jqT"/>
                     </connections>
                 </tabBarController>
@@ -1510,6 +1528,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M9X-fu-ADn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4724" y="651"/>
+        </scene>
+        <!--AI-->
+        <scene sceneID="Umz-FY-gUx">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="X4s-81-5si" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="AI" image="sparkles" catalog="system" selectedImage="sparkles" id="5C3-X1-ea0"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AHw-Hd-ZKF">
+                        <rect key="frame" x="0.0" y="118" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="dFs-L1-6HU" kind="relationship" relationship="rootViewController" id="T2q-4W-k28"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wk5-oG-U93" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3287.7862595419847" y="-30.281690140845072"/>
         </scene>
     </scenes>
     <resources>
