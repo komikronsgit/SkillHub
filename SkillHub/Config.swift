@@ -10,8 +10,5 @@ import Foundation
 struct Config {
 
     static let openAIKey = "API"
-
-    // Optional later (Supabase)
-    static let supabaseURL = ""
     static let supabaseAnonKey = ""
 }
