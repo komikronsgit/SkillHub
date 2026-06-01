@@ -40,6 +40,11 @@ class SignUpViewController: UIViewController {
                 return
             }
             await addUser(name: name, email: email, password: password, about_me: "", program: "", school: "")
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let createVC = storyboard.instantiateViewController(withIdentifier: "SignIn")
+            createVC.modalPresentationStyle = .fullScreen
+            present(createVC, animated: true)
         }
     }
 

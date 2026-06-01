@@ -143,6 +143,36 @@ func deleteUserById(id: Int) async -> Void {
     }
 }
 
+func getAllSkillPosts() async -> [[String]] {
+    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
+    
+    struct SkillPost: Decodable {
+        let title: String
+        let category: String
+        let description: String
+        let avalibility: String
+        let contact_email: String
+    }
+    
+    var posts: [[String]] = []
+    
+    do {
+        let skillPosts: [SkillPost] = try await client
+            .from("SkillPost")
+            .select()
+            .execute()
+            .value
+        
+        for skillPost in skillPosts {
+            posts.append([skillPost.title, skillPost.category, skillPost.description, skillPost.avalibility, skillPost.contact_email])
+        }
+    } catch let error {
+        print("failed to get skill post: \(error)")
+    }
+    
+    return posts
+}
+
 func addSkillPost(title: String, category: String, description: String, avalibility: String, contact_email: String, poster_id: Int) async -> Void {
     let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
     

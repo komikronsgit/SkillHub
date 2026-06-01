@@ -21,34 +21,25 @@ class SkillPostViewController: UIViewController {
     }
 
     @IBAction func postSkillTapped(_ sender: UIButton) {
+        Task {
+            guard let title = titleTextField.text, !title.isEmpty,
+                  let postDescription = descriptionTextField.text, !postDescription.isEmpty,
+                  let category = categoryTextField.text, !category.isEmpty,
+                  let availability = availabilityTextField.text, !availability.isEmpty,
+                  let contactEmail = contactEmailTextField.text, !contactEmail.isEmpty else {
 
-        guard let title = titleTextField.text, !title.isEmpty,
-              let postDescription = descriptionTextField.text, !postDescription.isEmpty,
-              let category = categoryTextField.text, !category.isEmpty,
-              let availability = availabilityTextField.text, !availability.isEmpty,
-              let contactEmail = contactEmailTextField.text, !contactEmail.isEmpty else {
-
-            showAlert(message: "Please fill all fields")
-            return
-        }
-
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
-        let newPost = SkillPost(context: context)
-        newPost.title = title
-        newPost.postDescription = postDescription
-        newPost.category = category
-        newPost.availability = availability
-        newPost.contactEmail = contactEmail
-        newPost.createdAt = Date()
-
-        do {
-            try context.save()
-            print("Skill post saved successfully")
-            dismiss(animated: true)
-        } catch {
-            print("Failed to save skill post: \(error)")
-            showAlert(message: "Could not save skill post")
+                showAlert(message: "Please fill all fields")
+                return
+            }
+            
+            let posterId = UserDefaults.standard.integer(forKey: "id")
+            
+            await addSkillPost(title: title, category: category, description: postDescription, avalibility: availability, contact_email: contactEmail, poster_id: posterId)
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let createVC = storyboard.instantiateViewController(withIdentifier: "Marketplace")
+            createVC.modalPresentationStyle = .fullScreen
+            present(createVC, animated: true)
         }
     }
 
