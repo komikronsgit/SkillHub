@@ -39,7 +39,7 @@ class SignUpViewController: UIViewController {
                 showAlert(message: "Passwords do not match")
                 return
             }
-            await postUser(name: name, email: email, password: password, about_me: "", program: "", school: "")
+            await addUser(name: name, email: email, password: password, about_me: "", program: "", school: "")
         }
     }
 

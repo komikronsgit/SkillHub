@@ -25,8 +25,7 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func logOutTapped(_ sender: Any) {
-        UserDefaults.standard.set(nil, forKey: "username")
-        UserDefaults.standard.set(nil, forKey: "userEmail")
+        UserDefaults.standard.set(nil, forKey: "id")
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let createVC = storyboard.instantiateViewController(withIdentifier: "SignIn")

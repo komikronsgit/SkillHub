@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class ProfileViewController: UIViewController {
-
+    
     @IBOutlet weak var nameLable: UILabel!
     @IBOutlet weak var programLable: UILabel!
     @IBOutlet weak var schoolLable: UILabel!
@@ -18,27 +18,20 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let name: String? = UserDefaults.standard.string(forKey: "username")
-   
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        let request: NSFetchRequest<User> = User.fetchRequest()
-        request.predicate = NSPredicate(format: "name == %@", name!)
-        
-        do {
-            let results = try context.fetch(request)
+        Task {
+            let id: Int = UserDefaults.standard.integer(forKey: "id")
             
-            if let user = results.first {
-                nameLable.text = user.name
-                programLable.text = user.program
-                schoolLable.text = user.school
-                aboutMeLable.text = user.aboutMe
-            }
+            let user = await getUserById(id: id)
+            let name = user[0]
+            let aboutMe = user[3]
+            let program = user[4]
+            let school = user[5]
             
-        } catch let error {
-            print("Failed to get user: \(error)")
+            nameLable.text = name
+            programLable.text = program
+            schoolLable.text = school
+            aboutMeLable.text = aboutMe
         }
-        
     }
     
     @IBAction func openEditProfile(_ sender: UIButton) {
@@ -47,5 +40,4 @@ class ProfileViewController: UIViewController {
         createVC.modalPresentationStyle = .fullScreen
         present(createVC, animated: true)
     }
-
 }

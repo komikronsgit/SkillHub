@@ -8,16 +8,14 @@
 import Foundation
 import Supabase
 
-func getUsersNameAndPasswordByEmail(email: String) async -> [String] {
-    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: config.supabaseAnonKey)
+func getUsersIdByEmail(email: String) async -> Int {
+    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
     
     struct User: Decodable {
-        let name: String
-        let password: String
+        let id: Int
     }
     
-    var name = ""
-    var password = ""
+    var id = 0
     
     do {
         let user: [User] = try await client
@@ -26,17 +24,55 @@ func getUsersNameAndPasswordByEmail(email: String) async -> [String] {
             .eq("email", value: email)
             .execute()
             .value
-        name = user[0].name
-        password = user[0].password
+        id = user[0].id
     } catch let error {
         print("failed to get user: \(error)")
     }
     
-    return [name, password]
+    return id
 }
 
-func postUser(name: String, email: String, password: String, about_me: String, program: String, school: String) async -> Void {
-    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: config.supabaseAnonKey)
+func getUserById(id: Int) async -> [String] {
+    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
+    
+    struct User: Decodable {
+        let name: String
+        let email: String
+        let password: String
+        let about_me: String
+        let program: String
+        let school: String
+    }
+    
+    var name = ""
+    var email = ""
+    var password = ""
+    var about_me = ""
+    var program = ""
+    var school = ""
+    
+    do {
+        let user: [User] = try await client
+            .from("User")
+            .select()
+            .eq("id", value: id)
+            .execute()
+            .value
+        name = user[0].name
+        email = user[0].email
+        password = user[0].password
+        about_me = user[0].about_me
+        program = user[0].program
+        school = user[0].school
+    } catch let error {
+        print("failed to get user: \(error)")
+    }
+    
+    return [name, email, password, about_me, program, school]
+}
+
+func addUser(name: String, email: String, password: String, about_me: String, program: String, school: String) async -> Void {
+    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
     
     struct User: Encodable {
         let name: String
@@ -55,6 +91,78 @@ func postUser(name: String, email: String, password: String, about_me: String, p
             .insert(user)
             .execute()
     } catch let error {
-        print("failed to post user: \(error)")
+        print("failed to add user: \(error)")
+    }
+}
+
+func updateUserById(id: Int, name: String, email: String, about_me: String, program: String, school: String) async -> Void {
+    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
+    
+    do {
+        try await client
+            .from("User")
+            .update([
+                "name": name,
+                "email": email,
+                "about_me": about_me,
+                "program": program,
+                "school": school,
+            ])
+            .eq("id", value: id)
+            .execute()
+    } catch let error {
+        print("failed to update user: \(error)")
+    }
+}
+
+func updateUsersPasswordById(id: Int, password: String) async -> Void {
+    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
+    
+    do {
+        try await client
+            .from("User")
+            .update(["password": password])
+            .eq("id", value: id)
+            .execute()
+    } catch let error {
+        print("failed to update users password: \(error)")
+    }
+}
+
+func deleteUserById(id: Int) async -> Void {
+    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
+    
+    do {
+        try await client
+            .from("User")
+            .delete()
+            .eq("id", value: id)
+            .execute()
+    } catch let error {
+        print("failed to delete user: \(error)")
+    }
+}
+
+func addSkillPost(title: String, category: String, description: String, avalibility: String, contact_email: String, poster_id: Int) async -> Void {
+    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
+    
+    struct SkillPost: Encodable {
+        let title: String
+        let category: String
+        let description: String
+        let avalibility: String
+        let contact_email: String
+        let poster_id: Int
+    }
+    
+    let user = SkillPost(title: title, category: category, description: description, avalibility: avalibility, contact_email: contact_email, poster_id: poster_id)
+    
+    do {
+        try await client
+            .from("SkillPost")
+            .insert(user)
+            .execute()
+    } catch let error {
+        print("failed to add skill post: \(error)")
     }
 }

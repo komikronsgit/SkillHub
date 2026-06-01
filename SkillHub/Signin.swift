@@ -28,13 +28,12 @@ class SignInViewController: UIViewController {
                 return
             }
             
-            let nameAndPassword = await getUsersNameAndPasswordByEmail(email: email)
-            let name = nameAndPassword[0]
-            let correctPassword = nameAndPassword[1]
+            let id = await getUsersIdByEmail(email: email)
+            let user = await getUserById(id: id)
+            let correctPassword = user[2]
             
             if password == correctPassword {
-                UserDefaults.standard.set(name, forKey: "username")
-                UserDefaults.standard.set(password, forKey: "userEmail")
+                UserDefaults.standard.set(id, forKey: "id")
                 
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
 

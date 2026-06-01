@@ -9,6 +9,6 @@ import Foundation
 
 struct Config {
 
-    static let openAIKey = "API"
+    static let openAIKey = ""
     static let supabaseAnonKey = ""
 }

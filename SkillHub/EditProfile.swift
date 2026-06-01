@@ -19,61 +19,40 @@ class EditProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let name: String? = UserDefaults.standard.string(forKey: "username")
-   
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        let request: NSFetchRequest<User> = User.fetchRequest()
-        request.predicate = NSPredicate(format: "name == %@", name!)
-        
-        do {
-            let results = try context.fetch(request)
+        Task {
+            let id: Int = UserDefaults.standard.integer(forKey: "id")
             
-            if let user = results.first {
-                nameInput.text = user.name
-                emailInput.text = user.email
-                schoolInput.text = user.school
-                programInput.text = user.program
-                bioInput.text = user.aboutMe
-            }
+            let user = await getUserById(id: id)
+            let name = user[0]
+            let email = user[1]
+            let aboutMe = user[3]
+            let program = user[4]
+            let school = user[5]
             
-        } catch let error {
-            print("Failed to get user: \(error)")
+            nameInput.text = name
+            emailInput.text = email
+            programInput.text = school
+            schoolInput.text = program
+            bioInput.text = aboutMe
         }
-        
     }
     
     @IBAction func saveEdit(_ sender: UIButton) {
-
-        let name: String? = UserDefaults.standard.string(forKey: "username")
-        
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        let request: NSFetchRequest<User> = User.fetchRequest()
-        request.predicate = NSPredicate(format: "name == %@", name!)
-        
-        
-        do {
-            let results = try context.fetch(request)
+        Task {
+            let id: Int = UserDefaults.standard.integer(forKey: "id")
             
-            if let user = results.first {
-                user.name = nameInput.text
-                user.email = emailInput.text
-                user.school = schoolInput.text
-                user.program = programInput.text
-                user.aboutMe = bioInput.text
-                
-                UserDefaults.standard.set(user.name, forKey: "username")
-                UserDefaults.standard.set(user.email, forKey: "userEmail")
-            }
+            let name = nameInput.text  ?? ""
+            let email = emailInput.text  ?? ""
+            let school = schoolInput.text  ?? ""
+            let program = programInput.text  ?? ""
+            let aboutMe = bioInput.text ?? ""
             
-            try context.save()
+            await updateUserById(id: id, name: name, email: email, about_me: aboutMe, program: program, school: school)
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let createVC = storyboard.instantiateViewController(withIdentifier: "Profile")
             createVC.modalPresentationStyle = .fullScreen
             present(createVC, animated: true)
-        } catch let error {
-            print("Failed to update user: \(error)")
         }
     }
 }
