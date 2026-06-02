@@ -11,9 +11,13 @@ import PDFKit
 
 class AIViewController: UIViewController, UIDocumentPickerDelegate {
 
+    // MARK: - Outlets
     @IBOutlet weak var uploadFileButton: UIButton!
     @IBOutlet weak var resultTextView: UITextView!
+    @IBOutlet weak var promptTextField: UITextField!
+    @IBOutlet weak var sendButton: UIButton!
 
+    // MARK: - Data
     var selectedFileURL: URL?
     var selectedFileText: String = ""
 
@@ -22,7 +26,10 @@ class AIViewController: UIViewController, UIDocumentPickerDelegate {
 
         uploadFileButton.setTitle("No file selected", for: .normal)
 
-        resultTextView.text = "Upload a file to begin..."
+        resultTextView.text = """
+        Upload a file or type a message...
+        (DOC/DOCX are not supported yet. Use PDF or TXT.)
+        """
         resultTextView.isEditable = false
     }
 
@@ -31,9 +38,7 @@ class AIViewController: UIViewController, UIDocumentPickerDelegate {
 
         let supportedTypes: [UTType] = [
             .pdf,
-            .plainText,
-            UTType(filenameExtension: "doc")!,
-            UTType(filenameExtension: "docx")!
+            .plainText
         ]
 
         let picker = UIDocumentPickerViewController(forOpeningContentTypes: supportedTypes)
@@ -42,7 +47,8 @@ class AIViewController: UIViewController, UIDocumentPickerDelegate {
         present(picker, animated: true)
     }
 
-    // MARK: - QUICK ACTION: SUMMARIZE
+    // MARK: - QUICK ACTIONS
+
     @IBAction func summarizeTapped(_ sender: UIButton) {
 
         let prompt: String
@@ -51,16 +57,15 @@ class AIViewController: UIViewController, UIDocumentPickerDelegate {
             prompt = "Ask the user what they want to summarize."
         } else {
             prompt = """
-            Summarize the following content in a simple and clear way:
+            Summarize this content clearly:
 
-            \(selectedFileText)
+            \(String(selectedFileText.prefix(10000)))
             """
         }
 
         openChat(prompt: prompt)
     }
 
-    // MARK: - QUICK ACTION: EXPLAIN
     @IBAction func explainTapped(_ sender: UIButton) {
 
         let prompt: String
@@ -69,64 +74,101 @@ class AIViewController: UIViewController, UIDocumentPickerDelegate {
             prompt = "Ask the user what they want explained."
         } else {
             prompt = """
-            Explain this in simple terms so a student can understand:
+            Explain this in simple terms:
 
-            \(selectedFileText)
+            \(String(selectedFileText.prefix(10000)))
             """
         }
 
         openChat(prompt: prompt)
     }
 
-    // MARK: - QUICK ACTION: QUIZ
     @IBAction func quizTapped(_ sender: UIButton) {
 
         let prompt: String
 
         if selectedFileText.isEmpty {
-            prompt = "Ask the user what type of quiz they want generated."
+            prompt = "Ask the user what type of quiz they want."
         } else {
             prompt = """
-            Generate a quiz based on this content:
+            Generate a quiz:
 
-            - 5 multiple choice questions
-            - 3 true/false questions
-            - Include answers at the end
+            - 5 multiple choice
+            - 3 true/false
+            - Include answers
 
             Content:
-            \(selectedFileText)
+            \(String(selectedFileText.prefix(10000)))
             """
         }
 
         openChat(prompt: prompt)
     }
 
-    // MARK: - OPEN CHAT VC (CENTRAL NAVIGATION)
-    @IBAction func openChatTapped(_ sender: UIButton) {
-        openChat(prompt: "User started chat")
+    // MARK: - SEND BUTTON (TEXT FIELD LOGIC)
+    @IBAction func sendTapped(_ sender: UIButton) {
+
+        let userText = promptTextField.text?
+            .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+
+        if userText.isEmpty && selectedFileText.isEmpty {
+
+            let alert = UIAlertController(
+                title: "SkillHub AI",
+                message: "No text provided.",
+                preferredStyle: .alert
+            )
+
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+            return
+        }
+
+        var prompt = ""
+
+        if !selectedFileText.isEmpty && !userText.isEmpty {
+
+            prompt = """
+            Use the file and answer the question.
+
+            FILE:
+            \(String(selectedFileText.prefix(10000)))
+
+            QUESTION:
+            \(userText)
+            """
+
+        } else if !selectedFileText.isEmpty {
+
+            prompt = """
+            Explain this file:
+
+            \(String(selectedFileText.prefix(10000)))
+            """
+
+        } else {
+
+            prompt = userText
+        }
+
+        openChat(prompt: prompt)
     }
 
-    // MARK: - NAVIGATION FUNCTION (IMPORTANT)
+    // MARK: - NAVIGATION
     private func openChat(prompt: String) {
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-
-        guard let chatVC = storyboard.instantiateViewController(withIdentifier: "aichat") as? AIChatViewController else {
-            print("❌ AIChatViewController not found. Check Storyboard ID = aichat")
+        guard let chatVC = storyboard?.instantiateViewController(withIdentifier: "aichat") as? AIChatViewController else {
+            print("AIChatViewController not found")
             return
         }
 
         chatVC.initialPrompt = prompt
         chatVC.fileText = selectedFileText
 
-        if let nav = self.navigationController {
-            nav.pushViewController(chatVC, animated: true)
-        } else {
-            present(chatVC, animated: true)
-        }
+        navigationController?.pushViewController(chatVC, animated: true)
     }
 
-    // MARK: - FILE PICKER RESULT
+    // MARK: - FILE PICKER
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
 
         guard let fileURL = urls.first else { return }
@@ -136,14 +178,12 @@ class AIViewController: UIViewController, UIDocumentPickerDelegate {
 
         loadTextFromFile(fileURL)
 
-        resultTextView.text = "File uploaded successfully. You can now use AI actions."
+        resultTextView.text = "File uploaded successfully."
     }
 
-    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        print("Document picker cancelled")
-    }
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {}
 
-    // MARK: - FILE READING
+    // MARK: - FILE LOADING
     private func loadTextFromFile(_ fileURL: URL) {
 
         selectedFileText = ""
@@ -156,25 +196,22 @@ class AIViewController: UIViewController, UIDocumentPickerDelegate {
             }
         }
 
-        let fileExtension = fileURL.pathExtension.lowercased()
+        let ext = fileURL.pathExtension.lowercased()
 
-        switch fileExtension {
+        switch ext {
 
         case "txt":
-            loadTXT(from: fileURL)
+            loadTXT(fileURL)
 
         case "pdf":
-            loadPDF(from: fileURL)
-
-        case "doc", "docx":
-            loadWordFile(from: fileURL)
+            loadPDF(fileURL)
 
         default:
             resultTextView.text = "Unsupported file type."
         }
     }
 
-    private func loadTXT(from fileURL: URL) {
+    private func loadTXT(_ fileURL: URL) {
         do {
             selectedFileText = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
@@ -182,30 +219,21 @@ class AIViewController: UIViewController, UIDocumentPickerDelegate {
         }
     }
 
-    private func loadPDF(from fileURL: URL) {
+    private func loadPDF(_ fileURL: URL) {
 
-        guard let pdfDocument = PDFDocument(url: fileURL) else {
+        guard let pdf = PDFDocument(url: fileURL) else {
             resultTextView.text = "Could not open PDF."
             return
         }
 
         var text = ""
 
-        for i in 0..<pdfDocument.pageCount {
-            if let page = pdfDocument.page(at: i),
-               let pageText = page.string {
-                text += pageText + "\n"
+        for i in 0..<pdf.pageCount {
+            if let page = pdf.page(at: i) {
+                text += page.string ?? ""
             }
         }
 
         selectedFileText = text
-    }
-
-    private func loadWordFile(from fileURL: URL) {
-        do {
-            selectedFileText = try String(contentsOf: fileURL, encoding: .utf8)
-        } catch {
-            resultTextView.text = "DOC/DOCX requires better parsing (we will improve later)."
-        }
     }
 }

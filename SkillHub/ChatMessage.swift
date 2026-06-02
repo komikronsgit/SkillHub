@@ -7,7 +7,13 @@
 
 import Foundation
 
+enum MessageType {
+    case user
+    case ai
+    case system
+}
+
 struct ChatMessage {
     let text: String
-    let isUser: Bool
+    let type: MessageType
 }

@@ -380,7 +380,7 @@
         <!--AI View Controller-->
         <scene sceneID="fr0-0M-eFJ">
             <objects>
-                <viewController title="AI View Controller" id="dFs-L1-6HU" customClass="AIViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ai" title="AI View Controller" id="dFs-L1-6HU" customClass="AIViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bU5-il-GAu">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -458,7 +458,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="paperplane" catalog="system" cornerStyle="capsule"/>
                                         <connections>
-                                            <action selector="openChatTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="aMu-qP-GB1"/>
+                                            <action selector="sendTapped:" destination="dFs-L1-6HU" eventType="touchUpInside" id="5v2-LT-Ywu"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -508,7 +508,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="Z6v-uW-kP7"/>
                     <connections>
+                        <outlet property="promptTextField" destination="uCL-XA-agc" id="0CM-Ha-DAL"/>
                         <outlet property="resultTextView" destination="IPD-Hi-zsg" id="8i6-7F-CMa"/>
+                        <outlet property="sendButton" destination="fHz-WQ-Dux" id="L18-EH-kCd"/>
                         <outlet property="uploadFileButton" destination="d7c-u5-m1y" id="4sE-iX-Mpa"/>
                     </connections>
                 </viewController>
@@ -577,7 +579,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s46-5P-36u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4947.3282442748086" y="-35.211267605633807"/>
+            <point key="canvasLocation" x="5007" y="-30"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="H8i-ik-6mB">
@@ -588,7 +590,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="213" translatesAutoresizingMaskIntoConstraints="NO" id="kyu-bi-hAh">
-                                <rect key="frame" x="16" y="118" width="361" height="42"/>
+                                <rect key="frame" x="16" y="162" width="361" height="42"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KDR-jY-4wb">
                                         <rect key="frame" x="0.0" y="0.0" width="106" height="42"/>
@@ -611,7 +613,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="As5-Rp-SOG">
-                                <rect key="frame" x="16" y="409.33333333333331" width="361" height="149.99999999999994"/>
+                                <rect key="frame" x="16" y="453.33333333333326" width="361" height="150"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About Me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxT-ih-ga2">
                                         <rect key="frame" x="0.0" y="0.0" width="77" height="20.333333333333332"/>
@@ -635,25 +637,25 @@
                                 </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Program" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pah-wH-gw0">
-                                <rect key="frame" x="16" y="348.66666666666669" width="361" height="20.333333333333314"/>
+                                <rect key="frame" x="16" y="392.66666666666669" width="361" height="20.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4zS-XX-QpS">
-                                <rect key="frame" x="16" y="320" width="361" height="28.666666666666686"/>
+                                <rect key="frame" x="16" y="364" width="361" height="28.666666666666686"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="School" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UtV-90-wHu">
-                                <rect key="frame" x="16" y="369" width="361" height="20.333333333333314"/>
+                                <rect key="frame" x="16" y="413" width="361" height="20.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person" catalog="system" highlightedImage="person.fill" translatesAutoresizingMaskIntoConstraints="NO" id="e3E-4d-tv3">
-                                <rect key="frame" x="76" y="161.33333333333331" width="240" height="157.33333333333337"/>
+                                <rect key="frame" x="76" y="205.33333333333331" width="240" height="157.33333333333331"/>
                                 <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -685,7 +687,7 @@
                             <constraint firstItem="Oaa-1B-R4K" firstAttribute="trailing" secondItem="As5-Rp-SOG" secondAttribute="trailing" constant="16" id="xZ5-Rc-iCJ"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Profile" image="person.fill" catalog="system" selectedImage="person" id="ycH-1k-AE2"/>
+                    <navigationItem key="navigationItem" id="1DT-aq-dsS"/>
                     <connections>
                         <outlet property="aboutMeLable" destination="qCm-b9-Zei" id="crm-bn-erc"/>
                         <outlet property="nameLable" destination="4zS-XX-QpS" id="AU0-QE-jpT"/>
@@ -696,7 +698,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VoR-29-xos" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6246.5648854961828" y="-35.211267605633807"/>
+            <point key="canvasLocation" x="7173.2824427480909" y="-35.211267605633807"/>
         </scene>
         <!--Create View Controller-->
         <scene sceneID="zYB-PX-lSr">
@@ -1246,7 +1248,7 @@
                         <segue destination="AC9-Ey-Puy" kind="relationship" relationship="viewControllers" id="ccZ-CD-9zm"/>
                         <segue destination="HS8-5u-qXH" kind="relationship" relationship="viewControllers" id="gLw-zS-1nE"/>
                         <segue destination="X4s-81-5si" kind="relationship" relationship="viewControllers" id="uu2-8T-knW"/>
-                        <segue destination="ceM-gI-Thq" kind="relationship" relationship="viewControllers" id="GOf-w6-jqT"/>
+                        <segue destination="z3e-sV-7He" kind="relationship" relationship="viewControllers" id="GOf-w6-jqT"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EX3-e1-ZDy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1547,6 +1549,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wk5-oG-U93" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3287.7862595419847" y="-30.281690140845072"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="Vc7-wS-RdY">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="z3e-sV-7He" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Profile" image="person.fill" catalog="system" selectedImage="person" id="ycH-1k-AE2"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ueu-0g-t98">
+                        <rect key="frame" x="0.0" y="118" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ceM-gI-Thq" kind="relationship" relationship="rootViewController" id="5Vc-RK-Azu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hph-SY-vsg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6246.5648854961828" y="-35.211267605633807"/>
         </scene>
     </scenes>
     <resources>
