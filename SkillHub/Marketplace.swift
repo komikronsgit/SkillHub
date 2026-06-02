@@ -12,7 +12,7 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBOutlet weak var tableView: UITableView!
 
-    var skillPosts: [SkillPost] = []
+    var skillPosts: [[String: String]] = [[:]]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,20 +30,9 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     func fetchSkillPosts() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
-        let request: NSFetchRequest<SkillPost> = SkillPost.fetchRequest()
-
-        request.sortDescriptors = [
-            NSSortDescriptor(key: "createdAt", ascending: false)
-        ]
-
-        do {
-            skillPosts = try context.fetch(request)
+        Task {
+            skillPosts = await getAllSkillPosts()
             tableView.reloadData()
-            print("Fetched \(skillPosts.count) skill posts")
-        } catch {
-            print("Failed to fetch skill posts: \(error)")
         }
     }
 
@@ -61,9 +50,8 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         let post = skillPosts[indexPath.row]
-
+        print(post)
         let cell = tableView.dequeueReusableCell(
             withIdentifier: "listOfSkills",
             for: indexPath
@@ -71,12 +59,12 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
 
         var content = cell.defaultContentConfiguration()
 
-        content.text = post.title ?? "Untitled Skill"
+        content.text = post["title"] ?? "Untitled Skill"
 
-        let category = post.category ?? "No category"
-        let availability = post.availability ?? "No availability"
-        let description = post.postDescription ?? ""
-        let email = post.contactEmail ?? "No email"
+        let category = post["category"] ?? "No category"
+        let availability = post["avalibility"] ?? "No availability"
+        let description = post["description"] ?? ""
+        let email = post["contactEmail"] ?? "No email"
 
         content.secondaryText = "\(category) • \(availability)\n\(description)\nContact: \(email)"
 
