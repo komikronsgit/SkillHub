@@ -12,6 +12,7 @@ import CoreData
 class ProfileViewController: UIViewController {
     
     @IBOutlet weak var nameLable: UILabel!
+    @IBOutlet weak var profilePicImage: UIImageView!
     @IBOutlet weak var programLable: UILabel!
     @IBOutlet weak var schoolLable: UILabel!
     @IBOutlet weak var aboutMeLable: UITextView!
@@ -19,6 +20,11 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Task {
+            let imageData = await getProfilePic()
+            profilePicImage.image = UIImage(data: imageData)
+            profilePicImage.contentMode = .scaleAspectFill
+            profilePicImage.clipsToBounds = true
+            
             let id: Int = UserDefaults.standard.integer(forKey: "id")
             
             let user = await getUserById(id: id)

@@ -691,6 +691,7 @@
                     <connections>
                         <outlet property="aboutMeLable" destination="qCm-b9-Zei" id="crm-bn-erc"/>
                         <outlet property="nameLable" destination="4zS-XX-QpS" id="AU0-QE-jpT"/>
+                        <outlet property="profilePicImage" destination="e3E-4d-tv3" id="uqj-nQ-C9Z"/>
                         <outlet property="programLable" destination="Pah-wH-gw0" id="e5g-c0-n1K"/>
                         <outlet property="schoolLable" destination="UtV-90-wHu" id="Zap-Nu-dmR"/>
                         <outlet property="view" destination="4zS-XX-QpS" id="agj-Qx-bhi"/>
@@ -1071,6 +1072,9 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain"/>
+                                <connections>
+                                    <action selector="changePicTapped:" destination="3Re-qW-TID" eventType="touchUpInside" id="Zzd-rM-XT8"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="1PB-1g-19A"/>
@@ -1125,6 +1129,7 @@
                         <outlet property="bioInput" destination="zsn-0J-BfW" id="IHt-Dp-owG"/>
                         <outlet property="emailInput" destination="x42-JA-pd8" id="btB-TA-Vj5"/>
                         <outlet property="nameInput" destination="86D-jH-M22" id="y2e-rH-wYO"/>
+                        <outlet property="profilePicInput" destination="Sn7-BI-4dS" id="3LY-yZ-kSe"/>
                         <outlet property="programInput" destination="Uqc-FF-7Es" id="J5d-Zk-fp9"/>
                         <outlet property="schoolInput" destination="pq3-Oz-y1d" id="5Ac-Gi-SU2"/>
                     </connections>
