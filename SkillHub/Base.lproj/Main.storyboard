@@ -135,17 +135,21 @@
                                     <constraint firstAttribute="width" constant="240" id="YR1-Rb-lNH"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lAQ-lg-wFk">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lAQ-lg-wFk">
                                 <rect key="frame" x="16" y="716" width="361" height="68"/>
+                                <color key="backgroundColor" red="0.22112099956657305" green="0.22350157795758152" blue="0.84258943796157837" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="361" id="flP-V4-J3X"/>
                                     <constraint firstAttribute="height" constant="68" id="zWG-3z-Zdp"/>
                                 </constraints>
-                                <color key="tintColor" red="0.24013783883817999" green="0.26054917843234882" blue="0.63184600515463918" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Get Started" cornerStyle="large">
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
-                                </buttonConfiguration>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Get Started"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="getStartedTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tfH-cQ-Diy"/>
                                 </connections>
@@ -845,20 +849,116 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Skill Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ygi-FZ-TIG">
-                                <rect key="frame" x="16" y="118" width="130" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Skill Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ygi-FZ-TIG">
+                                <rect key="frame" x="16" y="118" width="163" height="36"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m9w-zJ-62G">
-                                <rect key="frame" x="16" y="187" width="100" height="100"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Skill Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJb-xR-JXp">
+                                <rect key="frame" x="16" y="174" width="361" height="27"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JgE-0Q-tGr">
+                                <rect key="frame" x="16" y="734" width="361" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="361" id="5nN-cA-5rU"/>
+                                    <constraint firstAttribute="height" constant="50" id="IPK-Yf-sX3"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Send Skill Request" cornerStyle="large">
+                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="postSkillTapped:" destination="Vbb-8I-UQx" eventType="touchUpInside" id="IPn-gv-EPK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ppx-71-X9o">
+                                <rect key="frame" x="16" y="664" width="361" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="361" id="k7J-VH-1Ow"/>
+                                    <constraint firstAttribute="height" constant="50" id="whX-Z8-441"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Delete Skill Post" cornerStyle="large">
+                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="postSkillTapped:" destination="Vbb-8I-UQx" eventType="touchUpInside" id="2Rm-4f-7gp"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvH-72-UJQ">
+                                <rect key="frame" x="16" y="211" width="361" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="vwN-3Y-cBD">
+                                <rect key="frame" x="16" y="279" width="361" height="179"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="179" id="FAy-lW-G7g"/>
+                                    <constraint firstAttribute="width" constant="361" id="vOd-ot-EYh"/>
+                                </constraints>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWc-73-f1y">
+                                <rect key="frame" x="16" y="255" width="104" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Availability" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hm-G8-VNc">
+                                <rect key="frame" x="16" y="488" width="96" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A0K-NT-3do">
+                                <rect key="frame" x="16" y="522" width="361" height="20.333333333333371"/>
+                                <string key="text">Mon-Fri evenings (6-9 PM)
+</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="F2g-RE-lca"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="Ygi-FZ-TIG" secondAttribute="trailing" constant="214" id="4PF-ne-Lzr"/>
+                            <constraint firstItem="JgE-0Q-tGr" firstAttribute="top" secondItem="Ppx-71-X9o" secondAttribute="bottom" constant="20" id="9py-4r-RqO"/>
+                            <constraint firstItem="7hm-G8-VNc" firstAttribute="leading" secondItem="F2g-RE-lca" secondAttribute="leading" constant="16" id="FCp-gh-JBI"/>
+                            <constraint firstItem="A0K-NT-3do" firstAttribute="leading" secondItem="F2g-RE-lca" secondAttribute="leading" constant="16" id="HoG-40-sjz"/>
+                            <constraint firstItem="JgE-0Q-tGr" firstAttribute="leading" secondItem="F2g-RE-lca" secondAttribute="leading" constant="16" id="J2m-iq-87x"/>
+                            <constraint firstItem="Ygi-FZ-TIG" firstAttribute="leading" secondItem="F2g-RE-lca" secondAttribute="leading" constant="16" id="Nl1-Tq-p4n"/>
+                            <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="7hm-G8-VNc" secondAttribute="trailing" constant="281" id="RaH-mM-Jpt"/>
+                            <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="A0K-NT-3do" secondAttribute="trailing" constant="16" id="S2v-eH-3lm"/>
+                            <constraint firstItem="7hm-G8-VNc" firstAttribute="top" secondItem="vwN-3Y-cBD" secondAttribute="bottom" constant="30" id="STh-OC-XUc"/>
+                            <constraint firstItem="vwN-3Y-cBD" firstAttribute="top" secondItem="dWc-73-f1y" secondAttribute="bottom" id="WNx-UE-dL9"/>
+                            <constraint firstItem="A0K-NT-3do" firstAttribute="top" secondItem="7hm-G8-VNc" secondAttribute="bottom" constant="10" id="Xe3-PV-gSI"/>
+                            <constraint firstItem="fvH-72-UJQ" firstAttribute="leading" secondItem="F2g-RE-lca" secondAttribute="leading" constant="16" id="Ztb-GE-vk7"/>
+                            <constraint firstItem="rJb-xR-JXp" firstAttribute="top" secondItem="Ygi-FZ-TIG" secondAttribute="bottom" constant="20" id="adE-Db-QEE"/>
+                            <constraint firstItem="fvH-72-UJQ" firstAttribute="top" secondItem="rJb-xR-JXp" secondAttribute="bottom" constant="10" id="d0R-54-rab"/>
+                            <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="vwN-3Y-cBD" secondAttribute="trailing" constant="16" id="hLB-S9-9b4"/>
+                            <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="fvH-72-UJQ" secondAttribute="trailing" constant="16" id="iJl-W2-zlz"/>
+                            <constraint firstItem="Ygi-FZ-TIG" firstAttribute="top" secondItem="F2g-RE-lca" secondAttribute="top" id="iQo-fW-YeU"/>
+                            <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="Ppx-71-X9o" secondAttribute="trailing" constant="16" id="j9a-wO-l9M"/>
+                            <constraint firstItem="dWc-73-f1y" firstAttribute="top" secondItem="fvH-72-UJQ" secondAttribute="bottom" constant="20" id="jo0-K5-tLv"/>
+                            <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="JgE-0Q-tGr" secondAttribute="trailing" constant="16" id="mYq-c5-56u"/>
+                            <constraint firstItem="Ppx-71-X9o" firstAttribute="leading" secondItem="F2g-RE-lca" secondAttribute="leading" constant="16" id="pJs-VO-vj4"/>
+                            <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="dWc-73-f1y" secondAttribute="trailing" constant="273" id="pfU-tc-P5d"/>
+                            <constraint firstItem="vwN-3Y-cBD" firstAttribute="leading" secondItem="F2g-RE-lca" secondAttribute="leading" constant="16" id="qLQ-gj-PRq"/>
+                            <constraint firstItem="JgE-0Q-tGr" firstAttribute="bottom" secondItem="F2g-RE-lca" secondAttribute="bottom" id="rcw-1o-juj"/>
+                            <constraint firstItem="dWc-73-f1y" firstAttribute="leading" secondItem="F2g-RE-lca" secondAttribute="leading" constant="16" id="yc7-M3-9G7"/>
+                            <constraint firstItem="rJb-xR-JXp" firstAttribute="leading" secondItem="F2g-RE-lca" secondAttribute="leading" constant="16" id="ycO-iT-ZSr"/>
+                            <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="rJb-xR-JXp" secondAttribute="trailing" constant="16" id="zgU-P7-cqS"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tLU-b1-gV4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
