@@ -132,7 +132,30 @@ func updateUsersPasswordById(id: Int, password: String) async -> Void {
 func deleteUserById(id: Int) async -> Void {
     let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
     
+    struct User: Decodable {
+        let profile_pic_path: String
+    }
+    
     do {
+        try await client
+            .from("SkillPost")
+            .delete()
+            .eq("poster_id", value: id)
+            .execute()
+        
+        let user: [User] = try await client
+            .from("User")
+            .select()
+            .eq("id", value: id)
+            .execute()
+            .value
+        
+        if user.first?.profile_pic_path != nil {
+            try await client.storage
+                .from("profile_pics")
+                .remove(paths: [user.first!.profile_pic_path])
+        }
+        
         try await client
             .from("User")
             .delete()
