@@ -24,7 +24,7 @@ func getUsersIdByEmail(email: String) async -> Int {
             .eq("email", value: email)
             .execute()
             .value
-        id = user[0].id
+        id = user.count == 0 ? -1 : user[0].id
     } catch let error {
         print("failed to get user: \(error)")
     }
