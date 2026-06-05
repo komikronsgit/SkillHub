@@ -21,25 +21,37 @@ class SkillPostViewController: UIViewController {
     }
 
     @IBAction func postSkillTapped(_ sender: UIButton) {
-        Task {
-            guard let title = titleTextField.text, !title.isEmpty,
-                  let postDescription = descriptionTextField.text, !postDescription.isEmpty,
-                  let category = categoryTextField.text, !category.isEmpty,
-                  let availability = availabilityTextField.text, !availability.isEmpty,
-                  let contactEmail = contactEmailTextField.text, !contactEmail.isEmpty else {
+        guard let title = titleTextField.text, !title.isEmpty,
+              let postDescription = descriptionTextField.text, !postDescription.isEmpty,
+              let category = categoryTextField.text, !category.isEmpty,
+              let availability = availabilityTextField.text, !availability.isEmpty,
+              let contactEmail = contactEmailTextField.text, !contactEmail.isEmpty else {
+            showAlert(message: "Please fill all fields")
+            return
+        }
 
-                showAlert(message: "Please fill all fields")
-                return
+        let posterId = UserDefaults.standard.integer(forKey: "id")
+
+        if posterId == 0 {
+            showAlert(message: "User ID missing. Please log out and log in again.")
+            print("ERROR: posterId is 0")
+            return
+        }
+
+        Task {
+            await addSkillPost(
+                title: title,
+                category: category,
+                description: postDescription,
+                avalibility: availability,
+                contact_email: contactEmail,
+                poster_id: posterId
+            )
+
+            await MainActor.run {
+                print("Skill post submitted")
+                dismiss(animated: true)
             }
-            
-            let posterId = UserDefaults.standard.integer(forKey: "id")
-            
-            await addSkillPost(title: title, category: category, description: postDescription, avalibility: availability, contact_email: contactEmail, poster_id: posterId)
-            
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let createVC = storyboard.instantiateViewController(withIdentifier: "Marketplace")
-            createVC.modalPresentationStyle = .fullScreen
-            present(createVC, animated: true)
         }
     }
 
@@ -50,12 +62,7 @@ class SkillPostViewController: UIViewController {
             preferredStyle: .alert
         )
 
-        alert.addAction(
-            UIAlertAction(
-                title: "OK",
-                style: .default
-            )
-        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
 
         present(alert, animated: true)
     }
