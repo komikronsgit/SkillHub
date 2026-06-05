@@ -1,20 +1,16 @@
-//
-//  SupaStorageManager.swift
-//  SkillHub
-//
-//  Created by Kalvin Cusworth on 2026-06-02.
-//
-
 import Foundation
 import Supabase
 
-func getProfilePic() async ->  Data {
-    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
+func getProfilePic() async -> Data {
+    let client = SupabaseClient(
+        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
+        supabaseKey: Config.supabaseAnonKey
+    )
     
     let id: Int = UserDefaults.standard.integer(forKey: "id")
     
     struct User: Decodable {
-        let profile_pic_path: String
+        let profile_pic_path: String?
     }
     
     var data = Data()
@@ -27,14 +23,16 @@ func getProfilePic() async ->  Data {
             .execute()
             .value
         
-        let user = users[0]
-        if user.profile_pic_path.isEmpty {
+        guard let user = users.first,
+              let path = user.profile_pic_path,
+              !path.isEmpty else {
             return Data()
         }
         
         data = try await client.storage
             .from("profile_pics")
-            .download(path: user.profile_pic_path)
+            .download(path: path)
+        
     } catch let error {
         print("failed to get profile pic: \(error)")
     }
@@ -43,19 +41,16 @@ func getProfilePic() async ->  Data {
 }
 
 func addOrUpdateProfilePic(path: String, data: Data) async -> Void {
-    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
+    let client = SupabaseClient(
+        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
+        supabaseKey: Config.supabaseAnonKey
+    )
     
     let id: Int = UserDefaults.standard.integer(forKey: "id")
     
-    struct UserE: Encodable {
-        let profile_pic_path: String
-    }
-    
     struct UserD: Decodable {
-        let profile_pic_path: String
+        let profile_pic_path: String?
     }
-    
-    let user = UserE(profile_pic_path: path)
     
     do {
         let users: [UserD] = try await client
@@ -65,10 +60,10 @@ func addOrUpdateProfilePic(path: String, data: Data) async -> Void {
             .execute()
             .value
         
-        if users.first?.profile_pic_path == nil {
+        if let oldPath = users.first?.profile_pic_path, !oldPath.isEmpty {
             try await client.storage
                 .from("profile_pics")
-                .upload(
+                .update(
                     path,
                     data: data,
                     options: FileOptions(cacheControl: "0")
@@ -76,7 +71,7 @@ func addOrUpdateProfilePic(path: String, data: Data) async -> Void {
         } else {
             try await client.storage
                 .from("profile_pics")
-                .update(
+                .upload(
                     path,
                     data: data,
                     options: FileOptions(cacheControl: "0")
@@ -85,9 +80,10 @@ func addOrUpdateProfilePic(path: String, data: Data) async -> Void {
         
         try await client
             .from("User")
-            .update(["profile_pic_path": user.profile_pic_path])
+            .update(["profile_pic_path": path])
             .eq("id", value: id)
             .execute()
+        
     } catch let error {
         print("failed to add profile pic: \(error)")
     }

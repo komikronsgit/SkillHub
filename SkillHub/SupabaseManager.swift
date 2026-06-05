@@ -24,7 +24,7 @@ func getUsersIdByEmail(email: String) async -> Int {
             .eq("email", value: email)
             .execute()
             .value
-        id = user[0].id
+        id = user.count == 0 ? -1 : user[0].id
     } catch let error {
         print("failed to get user: \(error)")
     }
@@ -130,10 +130,13 @@ func updateUsersPasswordById(id: Int, password: String) async -> Void {
 }
 
 func deleteUserById(id: Int) async -> Void {
-    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
+    let client = SupabaseClient(
+        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
+        supabaseKey: Config.supabaseAnonKey
+    )
     
     struct User: Decodable {
-        let profile_pic_path: String
+        let profile_pic_path: String?
     }
     
     do {
@@ -145,15 +148,15 @@ func deleteUserById(id: Int) async -> Void {
         
         let user: [User] = try await client
             .from("User")
-            .select()
+            .select("profile_pic_path")
             .eq("id", value: id)
             .execute()
             .value
         
-        if user.first?.profile_pic_path != nil {
+        if let path = user.first?.profile_pic_path, !path.isEmpty {
             try await client.storage
                 .from("profile_pics")
-                .remove(paths: [user.first!.profile_pic_path])
+                .remove(paths: [path])
         }
         
         try await client
@@ -161,6 +164,7 @@ func deleteUserById(id: Int) async -> Void {
             .delete()
             .eq("id", value: id)
             .execute()
+        
     } catch let error {
         print("failed to delete user: \(error)")
     }

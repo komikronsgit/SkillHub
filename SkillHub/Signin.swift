@@ -29,6 +29,12 @@ class SignInViewController: UIViewController {
             }
             
             let id = await getUsersIdByEmail(email: email)
+            
+            if id == -1 {
+                showAlert(message: "Invalid email or password")
+                return
+            }
+            
             let user = await getUserById(id: id)
             let correctPassword = user[2]
             

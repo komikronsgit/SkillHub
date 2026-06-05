@@ -71,18 +71,24 @@ class EditProfileViewController: UIViewController, UIDocumentPickerDelegate {
         Task {
             let id: Int = UserDefaults.standard.integer(forKey: "id")
             
-            let name = nameInput.text  ?? ""
-            let email = emailInput.text  ?? ""
-            let school = schoolInput.text  ?? ""
-            let program = programInput.text  ?? ""
+            let name = nameInput.text ?? ""
+            let email = emailInput.text ?? ""
+            let school = schoolInput.text ?? ""
+            let program = programInput.text ?? ""
             let aboutMe = bioInput.text ?? ""
             
-            await updateUserById(id: id, name: name, email: email, about_me: aboutMe, program: program, school: school)
+            await updateUserById(
+                id: id,
+                name: name,
+                email: email,
+                about_me: aboutMe,
+                program: program,
+                school: school
+            )
             
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let createVC = storyboard.instantiateViewController(withIdentifier: "Profile")
-            createVC.modalPresentationStyle = .fullScreen
-            present(createVC, animated: true)
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
     

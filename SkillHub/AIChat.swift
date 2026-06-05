@@ -24,6 +24,8 @@ class AIChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureNavigationBar()
+
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
@@ -34,6 +36,29 @@ class AIChatViewController: UIViewController {
 
         // ONLY send system prompt to AI, NOT display it
         sendToAI(prompt: prompt)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        configureNavigationBar()
+    }
+
+    // MARK: - Navigation Bar
+    func configureNavigationBar() {
+        // not hiding full navigator bar to keep back button
+        navigationController?.setNavigationBarHidden(false, animated: false)
+
+        // deleting title by giving empty value
+        self.title = ""
+        self.navigationItem.title = ""
+
+        // precenting Storyboard title
+        self.navigationItem.titleView = UIView()
+
+        // preventing large title
+        self.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.navigationBar.prefersLargeTitles = false
     }
 
     // MARK: - SEND BUTTON
