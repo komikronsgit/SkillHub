@@ -13,15 +13,13 @@ class SettingsViewController: UIViewController {
     @IBAction func editProfileTapped(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let createVC = storyboard.instantiateViewController(withIdentifier: "EditProfile")
-        createVC.modalPresentationStyle = .fullScreen
-        present(createVC, animated: true)
+        self.navigationController?.pushViewController(createVC, animated: true)
     }
     
     @IBAction func privacySecurityTapped(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let createVC = storyboard.instantiateViewController(withIdentifier: "privacy")
-        createVC.modalPresentationStyle = .fullScreen
-        present(createVC, animated: true)
+        self.navigationController?.pushViewController(createVC, animated: true)
     }
     
     @IBAction func logOutTapped(_ sender: Any) {

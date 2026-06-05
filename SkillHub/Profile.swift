@@ -43,7 +43,6 @@ class ProfileViewController: UIViewController {
     @IBAction func openEditProfile(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let createVC = storyboard.instantiateViewController(withIdentifier: "settings")
-        createVC.modalPresentationStyle = .fullScreen
-        present(createVC, animated: true)
+        self.navigationController?.pushViewController(createVC, animated: true)
     }
 }

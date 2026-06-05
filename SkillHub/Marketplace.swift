@@ -38,11 +38,14 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBAction func addSkillTapped(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-
+        
         let createVC = storyboard.instantiateViewController(withIdentifier: "CreateSkillPost")
-
-        createVC.modalPresentationStyle = .fullScreen
-        present(createVC, animated: true)
+        if let navigationController = self.navigationController {
+            navigationController.pushViewController(createVC, animated: true)
+        } else {
+            createVC.modalPresentationStyle = .fullScreen
+            present(createVC, animated: true)
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -14,8 +14,7 @@ class PrivacyViewController: UIViewController {
     @IBAction func changePasswordTapped(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let createVC = storyboard.instantiateViewController(withIdentifier: "change")
-        createVC.modalPresentationStyle = .fullScreen
-        present(createVC, animated: true)
+        self.navigationController?.pushViewController(createVC, animated: true)
     }
     
     @IBAction func deleteAccountTapped(_ sender: Any) {

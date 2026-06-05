@@ -28,7 +28,7 @@ class AIViewController: UIViewController, UIDocumentPickerDelegate {
 
         resultTextView.text = """
         Upload a file or type a message...
-        (DOC/DOCX are not supported yet. Use PDF or TXT.)
+        Use only PDF or TXT
         """
         resultTextView.isEditable = false
     }
