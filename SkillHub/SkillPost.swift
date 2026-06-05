@@ -30,18 +30,17 @@ class SkillPostViewController: UIViewController {
 
     // MARK: - Navigation Bar
     func configureNavigationBar() {
-        // Navigation bar는 숨기지 않음
-        // 그래야 Back 버튼이 계속 보임
+        // Keeping Navigation bar to keep Back button
         navigationController?.setNavigationBarHidden(false, animated: false)
 
-        // 가운데 title 제거
+        // deleting title in the middle
         self.title = ""
         self.navigationItem.title = ""
 
-        // Storyboard에서 자동으로 잡힌 title도 안 보이게 막음
+        // prventing auto title showing from the Storyboard
         self.navigationItem.titleView = UIView()
 
-        // Large title 방지
+        // preventing Large title
         self.navigationItem.largeTitleDisplayMode = .never
         navigationController?.navigationBar.prefersLargeTitles = false
     }
@@ -77,12 +76,12 @@ class SkillPostViewController: UIViewController {
             await MainActor.run {
                 print("Skill post submitted")
 
-                // Push로 들어온 화면이면 이전 화면으로 pop
+                // If this screen was pushed onto the navigation stack, go back to the previous screen
                 if let navigationController = self.navigationController,
                    navigationController.viewControllers.count > 1 {
                     navigationController.popViewController(animated: true)
                 } else {
-                    // Modal로 열린 경우 fallback
+                    // Fallback if this screen was presented modally
                     self.dismiss(animated: true)
                 }
             }
