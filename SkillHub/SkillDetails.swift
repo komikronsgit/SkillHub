@@ -9,10 +9,11 @@ import Foundation
 import UIKit
 import MessageUI
 
-class SkillDetailsViewController:
-UIViewController,
-MFMailComposeViewControllerDelegate {
+class SkillDetailsViewController: UIViewController, MFMailComposeViewControllerDelegate {
 
+    let emailSubject = "Skill Request"
+    let emailBody = "Hello,\n\nI am interested in your skill listing.\n\nThank you."
+    
     @IBOutlet weak var skillTitleLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
@@ -36,46 +37,34 @@ MFMailComposeViewControllerDelegate {
             skillData["availability"]
     }
 
-    @IBAction func sendSkillRequestTapped(
-        _ sender: UIButton
-    ) {
-
-        guard MFMailComposeViewController.canSendMail()
-        else { return }
-
-        let recipient =
-            skillData["contactEmail"] ?? ""
-
-        let composer =
-            MFMailComposeViewController()
-
-        composer.mailComposeDelegate = self
-
-        composer.setToRecipients([recipient])
-
-        composer.setSubject(
-            "Skill Request"
-        )
-
-        composer.setMessageBody(
-            """
-            Hello,
-
-            I am interested in your skill listing.
-
-            Thank you.
-            """,
-            isHTML: false
-        )
-
-        present(composer, animated: true)
+    @IBAction func sendSkillRequestTapped(_ sender: UIButton) {
+        Task {
+            let toEmail = skillData["contactEmail"] ?? ""
+            let fromEmail = await getUserById(id: UserDefaults.standard.integer(forKey: "id"))[1]
+            showMailComposer(toEmail: toEmail, FromEmail: fromEmail)
+        }
     }
-
-    func mailComposeController(
-        _ controller: MFMailComposeViewController,
-        didFinishWith result: MFMailComposeResult,
-        error: Error?
-    ) {
-        dismiss(animated: true)
+    
+    private func showMailComposer(toEmail: String, FromEmail: String) {
+        guard MFMailComposeViewController.canSendMail() else {
+            print("cant send mail")
+            return
+        }
+        
+        let composer = MFMailComposeViewController()
+        composer.mailComposeDelegate = self
+        composer.setSubject(emailSubject)
+        composer.setMessageBody(emailBody, isHTML: false)
+        composer.setToRecipients([toEmail])
+        composer.setPreferredSendingEmailAddress(FromEmail)
+        
+        present(composer, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: (any Error)?) {
+        if let error = error {
+            print("email sent with the error: \(error)")
+        }
+        controller.dismiss(animated: true, completion: nil)
     }
 }
