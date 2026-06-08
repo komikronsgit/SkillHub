@@ -8,8 +8,9 @@
 import Foundation
 import UIKit
 import UniformTypeIdentifiers
+import PhotosUI
 
-class EditProfileViewController: UIViewController, UIDocumentPickerDelegate {
+class EditProfileViewController: UIViewController, PHPickerViewControllerDelegate {
     
     @IBOutlet weak var profilePicInput: UIButton!
     @IBOutlet weak var nameInput: UITextField!
@@ -40,30 +41,52 @@ class EditProfileViewController: UIViewController, UIDocumentPickerDelegate {
         }
     }
     
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
-        Task {
-            do {
-                let data = try Data(contentsOf: url)
-                let id = UserDefaults.standard.integer(forKey: "id")
-                let ext = url.pathExtension
-                await addOrUpdateProfilePic(path: "\(id).\(ext)", data: data)
-                await updateProfilePic()
-            } catch let error {
-                print("failed to load image: \(error)")
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+
+        picker.dismiss(animated: true)
+
+        guard let provider = results.first?.itemProvider,
+              provider.canLoadObject(ofClass: UIImage.self) else {
+            return
+        }
+
+        provider.loadObject(ofClass: UIImage.self) { image, error in
+
+            DispatchQueue.main.async {
+
+                if let image = image as? UIImage {
+
+                    self.profilePicInput.setImage(image, for: .normal)
+                    self.profilePicInput.imageView?.contentMode = .scaleAspectFill
+                    self.profilePicInput.clipsToBounds = true
+
+                    if let data = image.jpegData(compressionQuality: 0.8) {
+
+                        let id = UserDefaults.standard.integer(forKey: "id")
+
+                        Task {
+                            await addOrUpdateProfilePic(
+                                path: "\(id).jpg",
+                                data: data
+                            )
+
+                            await self.updateProfilePic()
+                        }
+                    }
+                }
             }
         }
     }
     
     @IBAction func changePicTapped(_ sender: UIButton) {
-        let supportedTypes: [UTType] = [
-            .image,
-            .png,
-            .jpeg,
-        ]
-        
-        let picker = UIDocumentPickerViewController(forOpeningContentTypes: supportedTypes)
+
+        var config = PHPickerConfiguration()
+        config.filter = .images
+        config.selectionLimit = 1
+
+        let picker = PHPickerViewController(configuration: config)
         picker.delegate = self
-        picker.allowsMultipleSelection = false
+
         present(picker, animated: true)
     }
     

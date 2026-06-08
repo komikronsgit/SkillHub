@@ -68,7 +68,7 @@ class SkillPostViewController: UIViewController {
                 title: title,
                 category: category,
                 description: postDescription,
-                avalibility: availability,
+                availability: availability,
                 contact_email: contactEmail,
                 poster_id: posterId
             )

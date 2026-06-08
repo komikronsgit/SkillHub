@@ -18,17 +18,65 @@ class PrivacyViewController: UIViewController {
     }
     
     @IBAction func deleteAccountTapped(_ sender: Any) {
-        Task {
-            let id: Int = UserDefaults.standard.integer(forKey: "id")
-            
-            await deleteUserById(id: id)
-            
-            UserDefaults.standard.set(nil, forKey: "id")
-            
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let createVC = storyboard.instantiateViewController(withIdentifier: "SignIn")
-            createVC.modalPresentationStyle = .fullScreen
-            present(createVC, animated: true)
-        }
+
+        let alert = UIAlertController(
+            title: "Delete Account",
+            message: "Are you sure you want to permanently delete your account? This action cannot be undone.",
+            preferredStyle: .alert
+        )
+
+        alert.addAction(
+            UIAlertAction(
+                title: "Cancel",
+                style: .cancel
+            )
+        )
+
+        alert.addAction(
+            UIAlertAction(
+                title: "Delete",
+                style: .destructive
+            ) { _ in
+
+                Task {
+
+                    let id: Int = UserDefaults.standard.integer(forKey: "id")
+
+                    await deleteUserById(id: id)
+
+                    UserDefaults.standard.removeObject(forKey: "id")
+
+                    await MainActor.run {
+
+                        let successAlert = UIAlertController(
+                            title: "Account Deleted",
+                            message: "Your account has been successfully deleted.",
+                            preferredStyle: .alert
+                        )
+
+                        successAlert.addAction(
+                            UIAlertAction(
+                                title: "OK",
+                                style: .default
+                            ) { _ in
+
+                                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+                                let signInVC = storyboard.instantiateViewController(
+                                    withIdentifier: "SignIn"
+                                )
+
+                                signInVC.modalPresentationStyle = .fullScreen
+                                self.present(signInVC, animated: true)
+                            }
+                        )
+
+                        self.present(successAlert, animated: true)
+                    }
+                }
+            }
+        )
+
+        present(alert, animated: true)
     }
 }
