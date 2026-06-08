@@ -18,6 +18,31 @@ class SkillPostViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        configureNavigationBar()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        configureNavigationBar()
+    }
+
+    // MARK: - Navigation Bar
+    func configureNavigationBar() {
+        // Keeping Navigation bar to keep Back button
+        navigationController?.setNavigationBarHidden(false, animated: false)
+
+        // deleting title in the middle
+        self.title = ""
+        self.navigationItem.title = ""
+
+        // prventing auto title showing from the Storyboard
+        self.navigationItem.titleView = UIView()
+
+        // preventing Large title
+        self.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.navigationBar.prefersLargeTitles = false
     }
 
     @IBAction func postSkillTapped(_ sender: UIButton) {
@@ -43,14 +68,22 @@ class SkillPostViewController: UIViewController {
                 title: title,
                 category: category,
                 description: postDescription,
-                avalibility: availability,
+                availability: availability,
                 contact_email: contactEmail,
                 poster_id: posterId
             )
 
             await MainActor.run {
                 print("Skill post submitted")
-                dismiss(animated: true)
+
+                // If this screen was pushed onto the navigation stack, go back to the previous screen
+                if let navigationController = self.navigationController,
+                   navigationController.viewControllers.count > 1 {
+                    navigationController.popViewController(animated: true)
+                } else {
+                    // Fallback if this screen was presented modally
+                    self.dismiss(animated: true)
+                }
             }
         }
     }
@@ -66,4 +99,4 @@ class SkillPostViewController: UIViewController {
 
         present(alert, animated: true)
     }
-}
+} 

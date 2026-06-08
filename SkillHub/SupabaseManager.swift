@@ -171,54 +171,66 @@ func deleteUserById(id: Int) async -> Void {
 }
 
 func getAllSkillPosts() async -> [[String: String]] {
-    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
-    
+
+    let client = SupabaseClient(
+        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
+        supabaseKey: Config.supabaseAnonKey
+    )
+
     struct SkillPost: Decodable {
+        let id: Int
         let title: String
         let category: String
         let description: String
-        let avalibility: String
+        let availability: String
         let contact_email: String
+        let user_id: String?
     }
-    
+
     var posts: [[String: String]] = []
-    
+
     do {
+
         let skillPosts: [SkillPost] = try await client
             .from("SkillPost")
             .select()
             .execute()
             .value
-        
-        for skillPost in skillPosts {
+
+        for post in skillPosts {
+
             posts.append([
-                "title": skillPost.title,
-                "category": skillPost.category,
-                "description": skillPost.description,
-                "avalibility": skillPost.avalibility,
-                "contactEmail": skillPost.contact_email
+                "id": String(post.id),
+                "title": post.title,
+                "category": post.category,
+                "description": post.description,
+                "availability": post.availability,
+                "contactEmail": post.contact_email,
+                "user_id": post.user_id ?? ""
             ])
         }
-    } catch let error {
-        print("failed to get skill post: \(error)")
+
+    } catch {
+
+        print("❌ failed to get skill posts: \(error)")
     }
-    
+
     return posts
 }
 
-func addSkillPost(title: String, category: String, description: String, avalibility: String, contact_email: String, poster_id: Int) async -> Void {
+func addSkillPost(title: String, category: String, description: String, availability: String, contact_email: String, poster_id: Int) async -> Void {
     let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
     
     struct SkillPost: Encodable {
         let title: String
         let category: String
         let description: String
-        let avalibility: String
+        let availability: String
         let contact_email: String
         let poster_id: Int
     }
     
-    let user = SkillPost(title: title, category: category, description: description, avalibility: avalibility, contact_email: contact_email, poster_id: poster_id)
+    let user = SkillPost(title: title, category: category, description: description, availability: availability, contact_email: contact_email, poster_id: poster_id)
     
     do {
         try await client
@@ -227,5 +239,28 @@ func addSkillPost(title: String, category: String, description: String, avalibil
             .execute()
     } catch let error {
         print("failed to add skill post: \(error)")
+    }
+}
+
+func deleteSkillPost(id: String) async {
+
+    let client = SupabaseClient(
+        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
+        supabaseKey: Config.supabaseAnonKey
+    )
+
+    do {
+
+        try await client
+            .from("SkillPost")
+            .delete()
+            .eq("id", value: id)
+            .execute()
+
+        print("✅ Deleted successfully")
+
+    } catch {
+
+        print("❌ Delete failed: \(error)")
     }
 }

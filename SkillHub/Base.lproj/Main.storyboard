@@ -374,6 +374,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="yQh-ij-FA4"/>
                     <connections>
+                        <outlet property="searchBar" destination="BV5-B3-KAU" id="xDD-l8-eTo"/>
                         <outlet property="tableView" destination="F1C-dG-rek" id="k67-fd-wvp"/>
                     </connections>
                 </viewController>
@@ -844,7 +845,7 @@
         <!--Skill Details View Controller-->
         <scene sceneID="Zhp-2u-Pt1">
             <objects>
-                <viewController storyboardIdentifier="details" title="Skill Details View Controller" id="ygM-iV-5Vm" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="details" title="Skill Details View Controller" id="ygM-iV-5Vm" customClass="SkillDetailsViewController" customModule="SkillHub" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7Hy-6r-qNL">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -873,20 +874,7 @@
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="postSkillTapped:" destination="Vbb-8I-UQx" eventType="touchUpInside" id="IPn-gv-EPK"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ppx-71-X9o">
-                                <rect key="frame" x="16" y="664" width="361" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="361" id="k7J-VH-1Ow"/>
-                                    <constraint firstAttribute="height" constant="50" id="whX-Z8-441"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="gray" title="Delete Skill Post" cornerStyle="large">
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="postSkillTapped:" destination="Vbb-8I-UQx" eventType="touchUpInside" id="2Rm-4f-7gp"/>
+                                    <action selector="sendSkillRequestTapped:" destination="ygM-iV-5Vm" eventType="touchUpInside" id="eeF-lv-8lz"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvH-72-UJQ">
@@ -932,7 +920,6 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="Ygi-FZ-TIG" secondAttribute="trailing" constant="214" id="4PF-ne-Lzr"/>
-                            <constraint firstItem="JgE-0Q-tGr" firstAttribute="top" secondItem="Ppx-71-X9o" secondAttribute="bottom" constant="20" id="9py-4r-RqO"/>
                             <constraint firstItem="7hm-G8-VNc" firstAttribute="leading" secondItem="F2g-RE-lca" secondAttribute="leading" constant="16" id="FCp-gh-JBI"/>
                             <constraint firstItem="A0K-NT-3do" firstAttribute="leading" secondItem="F2g-RE-lca" secondAttribute="leading" constant="16" id="HoG-40-sjz"/>
                             <constraint firstItem="JgE-0Q-tGr" firstAttribute="leading" secondItem="F2g-RE-lca" secondAttribute="leading" constant="16" id="J2m-iq-87x"/>
@@ -948,10 +935,8 @@
                             <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="vwN-3Y-cBD" secondAttribute="trailing" constant="16" id="hLB-S9-9b4"/>
                             <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="fvH-72-UJQ" secondAttribute="trailing" constant="16" id="iJl-W2-zlz"/>
                             <constraint firstItem="Ygi-FZ-TIG" firstAttribute="top" secondItem="F2g-RE-lca" secondAttribute="top" id="iQo-fW-YeU"/>
-                            <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="Ppx-71-X9o" secondAttribute="trailing" constant="16" id="j9a-wO-l9M"/>
                             <constraint firstItem="dWc-73-f1y" firstAttribute="top" secondItem="fvH-72-UJQ" secondAttribute="bottom" constant="20" id="jo0-K5-tLv"/>
                             <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="JgE-0Q-tGr" secondAttribute="trailing" constant="16" id="mYq-c5-56u"/>
-                            <constraint firstItem="Ppx-71-X9o" firstAttribute="leading" secondItem="F2g-RE-lca" secondAttribute="leading" constant="16" id="pJs-VO-vj4"/>
                             <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="dWc-73-f1y" secondAttribute="trailing" constant="273" id="pfU-tc-P5d"/>
                             <constraint firstItem="vwN-3Y-cBD" firstAttribute="leading" secondItem="F2g-RE-lca" secondAttribute="leading" constant="16" id="qLQ-gj-PRq"/>
                             <constraint firstItem="JgE-0Q-tGr" firstAttribute="bottom" secondItem="F2g-RE-lca" secondAttribute="bottom" id="rcw-1o-juj"/>
@@ -960,6 +945,12 @@
                             <constraint firstItem="F2g-RE-lca" firstAttribute="trailing" secondItem="rJb-xR-JXp" secondAttribute="trailing" constant="16" id="zgU-P7-cqS"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="availabilityLabel" destination="A0K-NT-3do" id="ONe-fo-Lqa"/>
+                        <outlet property="descriptionTextView" destination="vwN-3Y-cBD" id="sAz-6F-IXy"/>
+                        <outlet property="nameLabel" destination="fvH-72-UJQ" id="rCf-1b-Ta1"/>
+                        <outlet property="skillTitleLabel" destination="rJb-xR-JXp" id="7hZ-l4-pMl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tLU-b1-gV4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1165,8 +1156,8 @@
                                     <constraint firstAttribute="height" constant="130.33000000000001" id="h3c-to-ahG"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sn7-BI-4dS">
-                                <rect key="frame" x="76" y="154" width="240" height="130"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sn7-BI-4dS">
+                                <rect key="frame" x="166" y="89" width="240" height="130"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="130" id="H3v-Wc-7lm"/>
                                     <constraint firstAttribute="width" constant="240" id="PDI-op-llL"/>
@@ -1738,16 +1729,16 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPurpleColor">
-            <color red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
