@@ -1,3 +1,11 @@
+//
+//  SupaStorageManager.swift
+//  SkillHub
+//
+//  Created by Kalvin Cusworth on 2026-05-29.
+//
+
+
 import Foundation
 import Supabase
 
