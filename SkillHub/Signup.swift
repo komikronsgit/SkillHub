@@ -40,10 +40,11 @@ class SignUpViewController: UIViewController {
                 return
             }
             
-            if password.contains(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?])[A-Za-z\d!@#$%^&*?]{8,}$/) {
+            if password.contains(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?])[A-Za-z\d!@#$%^&*?]{6,}$/) {
                 showAlert(message: "Password but be at least 8 characters long and contain at least 1 uppercase latter, lowercase letter, number, and special character")
             }
             
+            await signUpUser(email: email, password: password)
             await addUser(name: name, email: email, password: password, about_me: "", program: "", school: "")
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
