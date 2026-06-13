@@ -40,11 +40,11 @@ class SignUpViewController: UIViewController {
                 return
             }
             
-            if password.contains(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?])[A-Za-z\d!@#$%^&*?]{8,}$/) {
+            if !password.contains(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?])[A-Za-z\d!@#$%^&*?]{8,}$/) {
                 showAlert(message: "Password must be at least 8 characters long and contain at least 1 uppercase letter, lowercase letter, number, and special character")
             }
 
-            if email.contains(/^[A-Za-z\d]+@[A-Za-z\d]+\.[a-z]{2,}$/) == false {
+            if !email.contains(/^[A-Za-z\d]+@[A-Za-z\d]+\.[a-z]{2,}$/) {
                 showAlert(message: "Please enter a valid email address")
             }
             
