@@ -264,3 +264,42 @@ func deleteSkillPost(id: String) async {
         print("❌ Delete failed: \(error)")
     }
 }
+
+func getNotificationsByUserId(id: Int) async -> [[String: String]] {
+
+    let client = SupabaseClient(
+        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
+        supabaseKey: Config.supabaseAnonKey
+    )
+
+    struct Notification: Decodable {
+        let created_at: Date
+        let message: String
+    }
+
+    var notificationStrings: [[String: String]] = []
+
+    do {
+
+        let notifications: [Notification] = try await client
+            .from("Notification")
+            .select()
+            .eq("user_id", value: id)
+            .execute()
+            .value
+
+        for notification in notifications {
+
+            notificationStrings.append([
+                "time": notification.created_at.formatted(),
+                "message": notification.message
+            ])
+        }
+
+    } catch {
+
+        print("❌ failed to get notifications: \(error)")
+    }
+
+    return notificationStrings
+}

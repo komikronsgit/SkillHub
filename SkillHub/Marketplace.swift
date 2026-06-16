@@ -86,15 +86,9 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
 
         let title = post["title"] ?? "Untitled Skill"
         let category = post["category"] ?? "No category"
-        let availability =
-            post["availability"] ??
-            post["avalibility"] ??
-            "No availability"
+        let availability = post["availability"] ?? "No availability"
         let description = post["description"] ?? "No description"
-        let email =
-            post["contactEmail"] ??
-            post["contact_email"] ??
-            "No email"
+        let email = post["contactEmail"] ?? "No email"
 
         content.text = title
         content.secondaryText = """
