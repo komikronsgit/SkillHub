@@ -22,8 +22,14 @@ class EditProfileViewController: UIViewController, PHPickerViewControllerDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         loadUserData()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
 
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         configureProfileButton()

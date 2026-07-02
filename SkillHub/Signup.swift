@@ -17,6 +17,12 @@ class SignUpViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 
     @IBAction func createAccountTapped(_ sender: UIButton) {
@@ -40,7 +46,7 @@ class SignUpViewController: UIViewController {
                 return
             }
             
-            if !password.contains(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?])[A-Za-z\d!@#$%^&*?]{8,}$/) {
+            if !password.contains(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?.,(){}\[\]<>;:~`_\-+=\\|'"])[A-Za-z\d!@#$%^&*?.,(){}\[\]<>;:~`_\-+=\\|'"]{8,}$/) {
                 showAlert(message: "Password must be at least 8 characters long and contain at least 1 uppercase letter, lowercase letter, number, and special character")
             }
 

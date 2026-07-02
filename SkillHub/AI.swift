@@ -31,6 +31,12 @@ class AIViewController: UIViewController, UIDocumentPickerDelegate {
         Use only PDF or TXT
         """
         resultTextView.isEditable = false
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 
     // MARK: - Upload File

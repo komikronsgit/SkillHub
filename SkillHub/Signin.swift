@@ -15,8 +15,14 @@ class SignInViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
 
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     @IBAction func loginTapped(_ sender: UIButton) {
         Task {
             guard let email = emailTextField.text,

@@ -36,6 +36,12 @@ class AIChatViewController: UIViewController {
 
         // ONLY send system prompt to AI, NOT display it
         sendToAI(prompt: prompt)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 
     override func viewWillAppear(_ animated: Bool) {

@@ -15,6 +15,16 @@ class ChangePasswordViewController: UIViewController {
     @IBOutlet weak var newPasswordInput: UITextField!
     @IBOutlet weak var confirmPasswordInput: UITextField!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     @IBAction func savePassword(_ sender: Any) {
         Task {
             let id: Int = UserDefaults.standard.integer(forKey: "id")
