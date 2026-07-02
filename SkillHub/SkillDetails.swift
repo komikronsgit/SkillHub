@@ -4,7 +4,6 @@
 //
 //  Created by Tochukwu Okoye on 2026-06-08.
 //
-
 import Foundation
 import UIKit
 import MessageUI
@@ -13,7 +12,7 @@ class SkillDetailsViewController: UIViewController, MFMailComposeViewControllerD
 
     let emailSubject = "Skill Request"
     let emailBody = "Hello,\n\nI am interested in your skill listing.\n\nThank you."
-    
+
     @IBOutlet weak var skillTitleLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
@@ -24,23 +23,63 @@ class SkillDetailsViewController: UIViewController, MFMailComposeViewControllerD
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.title = ""
+
         skillTitleLabel.text = skillData["title"]
 
-        nameLabel.text =
-            skillData["name"] ??
-            "Unknown"
+        let posterName = skillData["name"] ?? "Unknown"
 
-        descriptionTextView.text =
-            skillData["description"]
+        let icon = NSTextAttachment()
+        icon.image = UIImage(systemName: "person.circle.fill")?
+            .withTintColor(.secondaryLabel)
+        icon.bounds = CGRect(x: 0, y: -3, width: 16, height: 16)
 
-        availabilityLabel.text =
-            skillData["availability"]
+        let text = NSMutableAttributedString(attachment: icon)
+
+        text.append(NSAttributedString(
+            string: "  Posted by: ",
+            attributes: [
+                .font: UIFont.systemFont(ofSize: 15, weight: .medium),
+                .foregroundColor: UIColor.secondaryLabel
+            ]
+        ))
+
+        text.append(NSAttributedString(
+            string: posterName,
+            attributes: [
+                .font: UIFont.systemFont(ofSize: 15, weight: .semibold),
+                .foregroundColor: UIColor.label
+            ]
+        ))
+
+        nameLabel.attributedText = text
+
+        descriptionTextView.text = skillData["description"]
+        availabilityLabel.text = skillData["availability"]
     }
 
     @IBAction func sendSkillRequestTapped(_ sender: UIButton) {
         Task {
+            let requesterId = UserDefaults.standard.integer(forKey: "id")
             let toEmail = skillData["contactEmail"] ?? ""
-            let fromEmail = await getUserById(id: UserDefaults.standard.integer(forKey: "id"))[1]
+            let fromEmail = await getUserById(id: requesterId)[1]
+            let skillTitle = skillData["title"] ?? "Untitled Skill"
+
+            guard let posterIdString = skillData["poster_id"],
+                  let posterId = Int(posterIdString) else {
+                print("❌ poster_id missing")
+                return
+            }
+
+            await addNotification(
+                user_id: posterId,
+                message: "Please approve or decline this request.",
+                type: "skill_request",
+                skillTitle: skillTitle,
+                requesterId: requesterId,
+                status: "pending"
+            )
+
             showMailComposer(toEmail: toEmail, FromEmail: fromEmail)
         }
     }
@@ -50,21 +89,26 @@ class SkillDetailsViewController: UIViewController, MFMailComposeViewControllerD
             print("cant send mail")
             return
         }
-        
+
         let composer = MFMailComposeViewController()
         composer.mailComposeDelegate = self
         composer.setSubject(emailSubject)
         composer.setMessageBody(emailBody, isHTML: false)
         composer.setToRecipients([toEmail])
         composer.setPreferredSendingEmailAddress(FromEmail)
-        
-        present(composer, animated: true, completion: nil)
+
+        present(composer, animated: true)
     }
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: (any Error)?) {
+
+    func mailComposeController(
+        _ controller: MFMailComposeViewController,
+        didFinishWith result: MFMailComposeResult,
+        error: (any Error)?
+    ) {
         if let error = error {
             print("email sent with the error: \(error)")
         }
-        controller.dismiss(animated: true, completion: nil)
+
+        controller.dismiss(animated: true)
     }
 }
