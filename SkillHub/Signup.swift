@@ -42,10 +42,12 @@ class SignUpViewController: UIViewController {
             
             if !password.contains(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?])[A-Za-z\d!@#$%^&*?]{8,}$/) {
                 showAlert(message: "Password must be at least 8 characters long and contain at least 1 uppercase letter, lowercase letter, number, and special character")
+                return
             }
 
             if !email.contains(/^[A-Za-z\d]+@[A-Za-z\d]+\.[a-z]{2,}$/) {
                 showAlert(message: "Please enter a valid email address")
+                return
             }
             
             await addUser(name: name, email: email, password: password, about_me: "", program: "", school: "")

@@ -121,6 +121,15 @@ class EditProfileViewController: UIViewController, PHPickerViewControllerDelegat
                 school: school
             )
 
+            await addNotification(
+                user_id: id,
+                message: "Your profile has been modified.",
+                type: "profile_update",
+                skillTitle: "",
+                requesterId: nil,
+                status: "info"
+            )
+
             await MainActor.run {
                 self.navigationController?.popViewController(animated: true)
             }
