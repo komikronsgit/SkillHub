@@ -17,7 +17,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        nameLabel.text = UserDefaults.standard.string(forKey: "username")
+        loadUserName()
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -31,9 +31,31 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        loadUserName()
         fetchNotifications()
     }
 
+
+    func loadUserName() {
+        Task {
+            let userId = UserDefaults.standard.integer(forKey: "id")
+            let user = await getUserById(id: userId)
+
+            let userName: String
+
+            if user.indices.contains(0), !user[0].isEmpty {
+                userName = user[0]
+            } else {
+                userName = "User"
+            }
+
+            await MainActor.run {
+                self.nameLabel.text = "Welcome Back, \(userName)"
+            }
+        }
+    }
+  
     func fetchNotifications() {
         Task {
             let id = UserDefaults.standard.integer(forKey: "id")

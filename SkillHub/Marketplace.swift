@@ -20,15 +20,22 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
 
         tableView.delegate = self
         tableView.dataSource = self
-
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 145
+        tableView.estimatedRowHeight = 100
+        tableView.separatorStyle = .singleLine
+        tableView.backgroundColor = .systemBackground
 
         searchBar.delegate = self
         searchBar.showsCancelButton = false
 
         fetchSkillPosts()
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+
+        let tap = UITapGestureRecognizer(
+            target: self,
+            action: #selector(dismissKeyboard)
+        )
+
+        tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
 
@@ -49,6 +56,7 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
                 self.allSkillPosts = posts
                 self.skillPosts = posts
                 self.tableView.reloadData()
+
                 print("Fetched \(posts.count) skill posts")
             }
         }
@@ -61,8 +69,11 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
             withIdentifier: "CreateSkillPost"
         )
 
-        if let navigationController = self.navigationController {
-            navigationController.pushViewController(createVC, animated: true)
+        if let navigationController = navigationController {
+            navigationController.pushViewController(
+                createVC,
+                animated: true
+            )
         } else {
             createVC.modalPresentationStyle = .fullScreen
             present(createVC, animated: true)
@@ -91,26 +102,35 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
         var content = cell.defaultContentConfiguration()
 
         let title = post["title"] ?? "Untitled Skill"
-        let category = post["category"] ?? "No category"
-        let availability = post["availability"] ?? "No availability"
-        let description = post["description"] ?? "No description"
-        let email = post["contactEmail"] ?? "No email"
+        let posterName = post["name"] ?? "Unknown"
+        let category = post["category"] ?? "Uncategorized"
 
         content.text = title
+
         content.secondaryText = """
-        \(category)
-        \(availability)
-        \(description)
-        \(email)
+        👤 Posted by: \(posterName)
+
+        🏷️ \(category)
         """
 
-        content.textProperties.font = UIFont.boldSystemFont(ofSize: 20)
-        content.secondaryTextProperties.font = UIFont.systemFont(ofSize: 16)
+        content.textProperties.font = UIFont.boldSystemFont(ofSize: 21)
+        content.textProperties.color = .label
+
+        content.secondaryTextProperties.font = UIFont.systemFont(ofSize: 15)
         content.secondaryTextProperties.color = .secondaryLabel
+
+        content.directionalLayoutMargins = NSDirectionalEdgeInsets(
+            top: 12,
+            leading: 8,
+            bottom: 12,
+            trailing: 8
+        )
 
         cell.contentConfiguration = content
         cell.selectionStyle = .default
         cell.accessoryType = .disclosureIndicator
+        cell.backgroundColor = .systemBackground
+        cell.contentView.backgroundColor = .systemBackground
 
         return cell
     }
@@ -119,11 +139,17 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(
+            at: indexPath,
+            animated: true
+        )
 
         let selectedPost = skillPosts[indexPath.row]
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(
+            name: "Main",
+            bundle: nil
+        )
 
         guard let detailsVC = storyboard.instantiateViewController(
             withIdentifier: "details"
@@ -133,7 +159,10 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
 
         detailsVC.skillData = selectedPost
 
-        navigationController?.pushViewController(detailsVC, animated: true)
+        navigationController?.pushViewController(
+            detailsVC,
+            animated: true
+        )
     }
 
     func tableView(
@@ -141,15 +170,33 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
 
+        let post = skillPosts[indexPath.row]
+
+        let currentUserId = UserDefaults.standard.integer(
+            forKey: "id"
+        )
+
+        guard let posterIdString = post["poster_id"],
+              let posterId = Int(posterIdString),
+              posterId == currentUserId else {
+            return nil
+        }
+
         let deleteAction = UIContextualAction(
             style: .destructive,
             title: "Delete"
         ) { _, _, completion in
-            self.showDeleteConfirmation(indexPath: indexPath)
+
+            self.showDeleteConfirmation(
+                indexPath: indexPath
+            )
+
             completion(true)
         }
 
-        return UISwipeActionsConfiguration(actions: [deleteAction])
+        return UISwipeActionsConfiguration(
+            actions: [deleteAction]
+        )
     }
 
     func showDeleteConfirmation(indexPath: IndexPath) {
@@ -160,11 +207,17 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
         )
 
         alert.addAction(
-            UIAlertAction(title: "Cancel", style: .cancel)
+            UIAlertAction(
+                title: "Cancel",
+                style: .cancel
+            )
         )
 
         alert.addAction(
-            UIAlertAction(title: "Delete", style: .destructive) { _ in
+            UIAlertAction(
+                title: "Delete",
+                style: .destructive
+            ) { _ in
                 self.deleteSkill(at: indexPath)
             }
         )
@@ -183,8 +236,13 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
             await deleteSkillPost(id: id)
 
             await MainActor.run {
-                self.skillPosts.remove(at: indexPath.row)
-                self.allSkillPosts.removeAll { $0["id"] == id }
+                self.skillPosts.remove(
+                    at: indexPath.row
+                )
+
+                self.allSkillPosts.removeAll {
+                    $0["id"] == id
+                }
 
                 self.tableView.deleteRows(
                     at: [indexPath],
@@ -197,11 +255,15 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
 
 extension MarketplaceViewController: UISearchBarDelegate {
 
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    func searchBarTextDidBeginEditing(
+        _ searchBar: UISearchBar
+    ) {
         searchBar.showsCancelButton = true
     }
 
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(
+        _ searchBar: UISearchBar
+    ) {
         searchBar.text = ""
         searchBar.showsCancelButton = false
         searchBar.resignFirstResponder()
@@ -216,36 +278,35 @@ extension MarketplaceViewController: UISearchBarDelegate {
     ) {
         let query = searchText
             .lowercased()
-            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .trimmingCharacters(
+                in: .whitespacesAndNewlines
+            )
 
         if query.isEmpty {
             skillPosts = allSkillPosts
         } else {
             skillPosts = allSkillPosts.filter { post in
-                let title = post["title"]?.lowercased() ?? ""
-                let category = post["category"]?.lowercased() ?? ""
-                let availability =
-                    post["availability"]?.lowercased() ??
-                    post["avalibility"]?.lowercased() ??
-                    ""
-                let description = post["description"]?.lowercased() ?? ""
-                let email =
-                    post["contactEmail"]?.lowercased() ??
-                    post["contact_email"]?.lowercased() ??
-                    ""
+                let title = post["title"]?
+                    .lowercased() ?? ""
+
+                let category = post["category"]?
+                    .lowercased() ?? ""
+
+                let posterName = post["name"]?
+                    .lowercased() ?? ""
 
                 return title.contains(query)
                     || category.contains(query)
-                    || availability.contains(query)
-                    || description.contains(query)
-                    || email.contains(query)
+                    || posterName.contains(query)
             }
         }
 
         tableView.reloadData()
     }
 
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(
+        _ searchBar: UISearchBar
+    ) {
         searchBar.resignFirstResponder()
         searchBar.showsCancelButton = false
     }
