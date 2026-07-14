@@ -62,12 +62,20 @@ class SkillDetailsViewController: UIViewController, MFMailComposeViewControllerD
         Task {
             let requesterId = UserDefaults.standard.integer(forKey: "id")
             let toEmail = skillData["contactEmail"] ?? ""
-            let fromEmail = await getUserById(id: requesterId)[1]
             let skillTitle = skillData["title"] ?? "Untitled Skill"
+
+            let user = await getUserById(id: requesterId)
+            let fromEmail = user.indices.contains(1) ? user[1] : ""
 
             guard let posterIdString = skillData["poster_id"],
                   let posterId = Int(posterIdString) else {
                 print("❌ poster_id missing")
+                return
+            }
+
+            guard let skillPostIdString = skillData["id"],
+                  let skillPostId = Int(skillPostIdString) else {
+                print("❌ Skill post ID missing")
                 return
             }
 
@@ -76,11 +84,17 @@ class SkillDetailsViewController: UIViewController, MFMailComposeViewControllerD
                 message: "Please approve or decline this request.",
                 type: "skill_request",
                 skillTitle: skillTitle,
+                skillPostId: skillPostId,
                 requesterId: requesterId,
                 status: "pending"
             )
 
-            showMailComposer(toEmail: toEmail, FromEmail: fromEmail)
+            await MainActor.run {
+                self.showMailComposer(
+                    toEmail: toEmail,
+                    FromEmail: fromEmail
+                )
+            }
         }
     }
     

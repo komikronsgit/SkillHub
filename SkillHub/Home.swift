@@ -179,9 +179,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         present(alert, animated: true)
     }
 
-    func handleSkillRequest(notification: [String: String], status: String) {
+    func handleSkillRequest(
+        notification: [String: String],
+        status: String
+    ) {
         Task {
-            let skillTitle = notification["skill_title"] ?? "your requested skill"
+            let skillTitle =
+                notification["skill_title"] ?? "Requested skill"
 
             guard let requesterString = notification["requester_id"],
                   let requesterId = Int(requesterString) else {
@@ -189,17 +193,55 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 return
             }
 
+            guard let skillPostString = notification["skill_post_id"],
+                  let skillPostId = Int(skillPostString) else {
+                print("❌ skill_post_id missing")
+                return
+            }
+
+            let posterId = UserDefaults.standard.integer(forKey: "id")
+
+            var conversationId: Int?
+
+            if status == "approved" {
+                conversationId = await createOrGetConversation(
+                    skillPostId: skillPostId,
+                    requesterId: requesterId,
+                    posterId: posterId
+                )
+
+                if let conversationId {
+                    print("✅ Conversation ready: \(conversationId)")
+                } else {
+                    print("❌ Conversation could not be created")
+                }
+            }
+
+            let decisionMessage: String
+
+            if status == "approved" {
+                decisionMessage =
+                    "Your request for \(skillTitle) was approved. You can now start messaging."
+            } else {
+                decisionMessage =
+                    "Your request for \(skillTitle) was declined."
+            }
+
             await addNotification(
                 user_id: requesterId,
-                message: "Your request for \(skillTitle) was \(status).",
+                message: decisionMessage,
                 type: "skill_decision",
                 skillTitle: skillTitle,
+                skillPostId: skillPostId,
                 requesterId: nil,
                 status: status
             )
 
             if let notificationId = notification["id"] {
-                await updateNotificationStatus(id: notificationId, status: status)
+                await updateNotificationStatus(
+                    id: notificationId,
+                    status: status
+                )
             }
 
             fetchNotifications()
@@ -254,4 +296,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func aiTapped(_ sender: Any) {
         tabBarController?.selectedIndex = 2
     }
+
+    
 }

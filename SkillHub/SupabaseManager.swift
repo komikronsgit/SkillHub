@@ -269,7 +269,9 @@ func deleteSkillPost(id: String) async {
 
 func getNotificationsByUserId(id: Int) async -> [[String: String]] {
     let client = SupabaseClient(
-        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
+        supabaseURL: URL(
+            string: "https://eopbyxioxjnyeyxcuikg.supabase.co"
+        )!,
         supabaseKey: Config.supabaseAnonKey
     )
 
@@ -279,6 +281,7 @@ func getNotificationsByUserId(id: Int) async -> [[String: String]] {
         let message: String
         let type: String?
         let skill_title: String?
+        let skill_post_id: Int?
         let requester_id: Int?
         let status: String?
     }
@@ -294,19 +297,20 @@ func getNotificationsByUserId(id: Int) async -> [[String: String]] {
             .execute()
             .value
 
-        for n in notifications {
+        for notification in notifications {
             results.append([
-                "id": String(n.id),
-                "time": n.created_at.formatted(),
-                "message": n.message,
-                "type": n.type ?? "general",
-                "skill_title": n.skill_title ?? "",
-                "requester_id": n.requester_id != nil ? String(n.requester_id!) : "",
-                "status": n.status ?? "info"
+                "id": String(notification.id),
+                "time": notification.created_at.formatted(),
+                "message": notification.message,
+                "type": notification.type ?? "general",
+                "skill_title": notification.skill_title ?? "",
+                "skill_post_id": notification.skill_post_id.map(String.init) ?? "",
+                "requester_id": notification.requester_id.map(String.init) ?? "",
+                "status": notification.status ?? "info"
             ])
         }
     } catch {
-        print("❌ failed to get notifications: \(error)")
+        print("❌ Failed to get notifications: \(error)")
     }
 
     return results
@@ -317,12 +321,15 @@ func addNotification(
     message: String,
     type: String = "general",
     skillTitle: String = "",
+    skillPostId: Int? = nil,
     requesterId: Int? = nil,
     status: String = "info"
 ) async {
 
     let client = SupabaseClient(
-        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
+        supabaseURL: URL(
+            string: "https://eopbyxioxjnyeyxcuikg.supabase.co"
+        )!,
         supabaseKey: Config.supabaseAnonKey
     )
 
@@ -331,6 +338,7 @@ func addNotification(
         let message: String
         let type: String
         let skill_title: String
+        let skill_post_id: Int?
         let requester_id: Int?
         let status: String
     }
@@ -340,6 +348,7 @@ func addNotification(
         message: message,
         type: type,
         skill_title: skillTitle,
+        skill_post_id: skillPostId,
         requester_id: requesterId,
         status: status
     )
@@ -349,8 +358,11 @@ func addNotification(
             .from("Notification")
             .insert(notification)
             .execute()
+
+        print("✅ Notification added")
+
     } catch {
-        print("❌ failed to add notification: \(error)")
+        print("❌ Failed to add notification: \(error)")
     }
 }
 func updateNotificationStatus(id: String, status: String) async {
@@ -384,5 +396,229 @@ func deleteNotification(id: String) async {
             .execute()
     } catch {
         print("❌ failed to delete notification: \(error)")
+    }
+}
+// MARK: - Messaging Models
+
+struct ConversationModel: Decodable {
+    let id: Int
+    let created_at: Date
+    let skill_post_id: Int
+    let requester_id: Int
+    let poster_id: Int
+}
+
+struct ChatMessageModel: Decodable {
+    let id: Int
+    let created_at: Date
+    let conversation_id: Int
+    let sender_id: Int
+    let message: String
+}
+
+
+// MARK: - Conversation Functions
+
+func createOrGetConversation(
+    skillPostId: Int,
+    requesterId: Int,
+    posterId: Int
+) async -> Int? {
+
+    let client = SupabaseClient(
+        supabaseURL: URL(
+            string: "https://eopbyxioxjnyeyxcuikg.supabase.co"
+        )!,
+        supabaseKey: Config.supabaseAnonKey
+    )
+
+    struct NewConversation: Encodable {
+        let skill_post_id: Int
+        let requester_id: Int
+        let poster_id: Int
+    }
+
+    do {
+        let existing: [ConversationModel] = try await client
+            .from("Conversation")
+            .select()
+            .eq("skill_post_id", value: skillPostId)
+            .eq("requester_id", value: requesterId)
+            .eq("poster_id", value: posterId)
+            .execute()
+            .value
+
+        if let conversation = existing.first {
+            return conversation.id
+        }
+
+        let conversations: [ConversationModel] = try await client
+            .from("Conversation")
+            .insert(
+                NewConversation(
+                    skill_post_id: skillPostId,
+                    requester_id: requesterId,
+                    poster_id: posterId
+                )
+            )
+            .select()
+            .execute()
+            .value
+
+        return conversations.first?.id
+
+    } catch {
+        print("❌ Failed to create or get conversation: \(error)")
+        return nil
+    }
+}
+
+func getConversationsForUser(
+    userId: Int
+) async -> [ConversationModel] {
+
+    let client = SupabaseClient(
+        supabaseURL: URL(
+            string: "https://eopbyxioxjnyeyxcuikg.supabase.co"
+        )!,
+        supabaseKey: Config.supabaseAnonKey
+    )
+
+    do {
+        let requesterConversations: [ConversationModel] = try await client
+            .from("Conversation")
+            .select()
+            .eq("requester_id", value: userId)
+            .execute()
+            .value
+
+        let posterConversations: [ConversationModel] = try await client
+            .from("Conversation")
+            .select()
+            .eq("poster_id", value: userId)
+            .execute()
+            .value
+
+        var combined = requesterConversations
+
+        for conversation in posterConversations {
+            if !combined.contains(
+                where: { $0.id == conversation.id }
+            ) {
+                combined.append(conversation)
+            }
+        }
+
+        return combined.sorted {
+            $0.created_at > $1.created_at
+        }
+
+    } catch {
+        print("❌ Failed to load conversations: \(error)")
+        return []
+    }
+}
+
+// MARK: - Message Functions
+
+func getMessages(
+    conversationId: Int
+) async -> [ChatMessageModel] {
+
+    let client = SupabaseClient(
+        supabaseURL: URL(
+            string: "https://eopbyxioxjnyeyxcuikg.supabase.co"
+        )!,
+        supabaseKey: Config.supabaseAnonKey
+    )
+
+    do {
+        let messages: [ChatMessageModel] = try await client
+            .from("Message")
+            .select()
+            .eq("conversation_id", value: conversationId)
+            .order("created_at", ascending: true)
+            .execute()
+            .value
+
+        return messages
+
+    } catch {
+        print("❌ Failed to load messages: \(error)")
+        return []
+    }
+}
+
+func sendMessage(
+    conversationId: Int,
+    senderId: Int,
+    text: String
+) async -> Bool {
+
+    let client = SupabaseClient(
+        supabaseURL: URL(
+            string: "https://eopbyxioxjnyeyxcuikg.supabase.co"
+        )!,
+        supabaseKey: Config.supabaseAnonKey
+    )
+
+    struct NewMessage: Encodable {
+        let conversation_id: Int
+        let sender_id: Int
+        let message: String
+    }
+
+    let cleanText = text.trimmingCharacters(
+        in: .whitespacesAndNewlines
+    )
+
+    guard !cleanText.isEmpty else {
+        return false
+    }
+
+    do {
+        try await client
+            .from("Message")
+            .insert(
+                NewMessage(
+                    conversation_id: conversationId,
+                    sender_id: senderId,
+                    message: cleanText
+                )
+            )
+            .execute()
+
+        return true
+
+    } catch {
+        print("❌ Failed to send message: \(error)")
+        return false
+    }
+}
+func getSkillPostTitle(skillPostId: Int) async -> String {
+    let client = SupabaseClient(
+        supabaseURL: URL(
+            string: "https://eopbyxioxjnyeyxcuikg.supabase.co"
+        )!,
+        supabaseKey: Config.supabaseAnonKey
+    )
+
+    struct SkillTitle: Decodable {
+        let title: String
+    }
+
+    do {
+        let posts: [SkillTitle] = try await client
+            .from("SkillPost")
+            .select("title")
+            .eq("id", value: skillPostId)
+            .execute()
+            .value
+
+        return posts.first?.title ?? "Skill conversation"
+
+    } catch {
+        print("❌ Failed to load skill title: \(error)")
+        return "Skill conversation"
     }
 }
