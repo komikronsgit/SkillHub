@@ -28,6 +28,12 @@ class ConversationListViewController:
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 75
         tableView.backgroundColor = .systemBackground
+        tableView.separatorStyle = .singleLine
+
+        tableView.register(
+            UITableViewCell.self,
+            forCellReuseIdentifier: "conversationCell"
+        )
 
         loadConversations()
     }
@@ -36,6 +42,8 @@ class ConversationListViewController:
         super.viewWillAppear(animated)
         loadConversations()
     }
+
+    // MARK: - Load Conversations
 
     private func loadConversations() {
         Task {
@@ -49,14 +57,12 @@ class ConversationListViewController:
                 userId: currentUserId
             )
 
-            // Remove invalid conversations where both users are the same.
             let validConversations = loadedConversations.filter {
                 $0.requester_id != $0.poster_id
             }
 
             print("💬 Valid chats found: \(validConversations.count)")
 
-            // Display rows immediately.
             await MainActor.run {
                 self.conversations = validConversations
                 self.tableView.reloadData()
@@ -71,7 +77,9 @@ class ConversationListViewController:
                     ? conversation.poster_id
                     : conversation.requester_id
 
-                let user = await getUserById(id: otherUserId)
+                let user = await getUserById(
+                    id: otherUserId
+                )
 
                 if user.indices.contains(0),
                    !user[0].isEmpty {
@@ -84,7 +92,9 @@ class ConversationListViewController:
                     skillPostId: conversation.skill_post_id
                 )
 
-                loadedTitles[conversation.skill_post_id] = skillTitle
+                loadedTitles[
+                    conversation.skill_post_id
+                ] = skillTitle
             }
 
             await MainActor.run {
@@ -94,11 +104,14 @@ class ConversationListViewController:
             }
         }
     }
-    
+
+    // MARK: - Table View Data Source
+
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
+        print("📋 Table rows: \(conversations.count)")
         return conversations.count
     }
 
@@ -106,6 +119,8 @@ class ConversationListViewController:
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
+
+        print("🧱 Creating conversation cell \(indexPath.row)")
 
         let conversation = conversations[indexPath.row]
 
@@ -137,6 +152,7 @@ class ConversationListViewController:
         )
 
         content.imageProperties.tintColor = .systemBlue
+
         content.imageProperties.maximumSize = CGSize(
             width: 42,
             height: 42
@@ -170,6 +186,8 @@ class ConversationListViewController:
 
         return cell
     }
+
+    // MARK: - Open Chat
 
     func tableView(
         _ tableView: UITableView,
@@ -207,7 +225,6 @@ class ConversationListViewController:
         }
 
         chatVC.conversationId = conversation.id
-    
         chatVC.chatTitle = otherUserName
 
         guard let navigationController = navigationController else {
