@@ -113,12 +113,19 @@ class EditProfileViewController: UIViewController, PHPickerViewControllerDelegat
             let program = programInput.text ?? ""
             let aboutMe = bioInput.text ?? ""
 
+            sender.isEnabled = false
+
             if let imageData = selectedImageData {
-                let path = selectedImagePath ?? "\(id)_\(Int(Date().timeIntervalSince1970)).jpg"
-                await addOrUpdateProfilePic(path: path, data: imageData)
+                let path = selectedImagePath
+                    ?? "\(id)_\(Int(Date().timeIntervalSince1970)).jpg"
+
+                await addOrUpdateProfilePic(
+                    path: path,
+                    data: imageData
+                )
             }
 
-            await updateUserById(
+            let success = await updateUserById(
                 id: id,
                 name: name,
                 email: email,
@@ -127,21 +134,61 @@ class EditProfileViewController: UIViewController, PHPickerViewControllerDelegat
                 school: school
             )
 
-            await addNotification(
-                user_id: id,
-                message: "Your profile has been modified.",
-                type: "profile_update",
-                skillTitle: "",
-                requesterId: nil,
-                status: "info"
-            )
+            if success {
+                _ = await addNotification(
+                    user_id: id,
+                    message: "Your profile has been modified.",
+                    type: "profile_update",
+                    skillTitle: "",
+                    skillPostId: nil,
+                    requesterId: nil,
+                    status: "info"
+                )
+                
+                await MainActor.run {
+                    sender.isEnabled = true
 
-            await MainActor.run {
-                self.navigationController?.popViewController(animated: true)
+                    let alert = UIAlertController(
+                        title: "Success",
+                        message: "Profile updated successfully.",
+                        preferredStyle: .alert
+                    )
+
+                    alert.addAction(
+                        UIAlertAction(
+                            title: "OK",
+                            style: .default
+                        ) { [weak self] _ in
+                            self?.navigationController?
+                                .popViewController(animated: true)
+                        }
+                    )
+
+                    self.present(alert, animated: true)
+                }
+            } else {
+                await MainActor.run {
+                    sender.isEnabled = true
+
+                    let alert = UIAlertController(
+                        title: "Update Failed",
+                        message: "Failed to update profile. Please try again.",
+                        preferredStyle: .alert
+                    )
+
+                    alert.addAction(
+                        UIAlertAction(
+                            title: "OK",
+                            style: .default
+                        )
+                    )
+
+                    self.present(alert, animated: true)
+                }
             }
         }
     }
-
+    
     private func updateProfilePic() async {
         let imageData = await getProfilePic()
 

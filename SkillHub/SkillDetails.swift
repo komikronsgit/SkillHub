@@ -4,21 +4,18 @@
 //
 //  Created by Tochukwu Okoye on 2026-06-08.
 //
+
 import Foundation
 import UIKit
-import MessageUI
 
-class SkillDetailsViewController: UIViewController, MFMailComposeViewControllerDelegate {
-
-    let emailSubject = "Skill Request"
-    let emailBody = "Hello,\n\nI am interested in your skill listing.\n\nThank you."
+class SkillDetailsViewController: UIViewController {
 
     @IBOutlet weak var skillTitleLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var availabilityLabel: UILabel!
 
-    var skillData: [String:String] = [:]
+    var skillData: [String: String] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,54 +29,98 @@ class SkillDetailsViewController: UIViewController, MFMailComposeViewControllerD
         let icon = NSTextAttachment()
         icon.image = UIImage(systemName: "person.circle.fill")?
             .withTintColor(.secondaryLabel)
-        icon.bounds = CGRect(x: 0, y: -3, width: 16, height: 16)
+        icon.bounds = CGRect(
+            x: 0,
+            y: -3,
+            width: 16,
+            height: 16
+        )
 
-        let text = NSMutableAttributedString(attachment: icon)
+        let text = NSMutableAttributedString(
+            attachment: icon
+        )
 
-        text.append(NSAttributedString(
-            string: "  Posted by: ",
-            attributes: [
-                .font: UIFont.systemFont(ofSize: 15, weight: .medium),
-                .foregroundColor: UIColor.secondaryLabel
-            ]
-        ))
+        text.append(
+            NSAttributedString(
+                string: "  Posted by: ",
+                attributes: [
+                    .font: UIFont.systemFont(
+                        ofSize: 15,
+                        weight: .medium
+                    ),
+                    .foregroundColor: UIColor.secondaryLabel
+                ]
+            )
+        )
 
-        text.append(NSAttributedString(
-            string: posterName,
-            attributes: [
-                .font: UIFont.systemFont(ofSize: 15, weight: .semibold),
-                .foregroundColor: UIColor.label
-            ]
-        ))
+        text.append(
+            NSAttributedString(
+                string: posterName,
+                attributes: [
+                    .font: UIFont.systemFont(
+                        ofSize: 15,
+                        weight: .semibold
+                    ),
+                    .foregroundColor: UIColor.label
+                ]
+            )
+        )
 
         nameLabel.attributedText = text
-
         descriptionTextView.text = skillData["description"]
         availabilityLabel.text = skillData["availability"]
     }
 
     @IBAction func sendSkillRequestTapped(_ sender: UIButton) {
+        guard UserDefaults.standard.object(forKey: "id") != nil else {
+            showAlert(
+                message: "No signed-in account was found."
+            )
+            return
+        }
+
+        let requesterId = UserDefaults.standard.integer(
+            forKey: "id"
+        )
+
+        guard requesterId != 0 else {
+            showAlert(
+                message: "Your user ID is missing. Please log in again."
+            )
+            return
+        }
+
+        guard let posterIdString = skillData["poster_id"],
+              let posterId = Int(posterIdString)
+        else {
+            showAlert(
+                message: "The skill poster information is missing."
+            )
+            return
+        }
+
+        guard let skillPostIdString = skillData["id"],
+              let skillPostId = Int(skillPostIdString)
+        else {
+            showAlert(
+                message: "The skill post information is missing."
+            )
+            return
+        }
+
+        if requesterId == posterId {
+            showAlert(
+                message: "You cannot send a request for your own skill post."
+            )
+            return
+        }
+
+        let skillTitle = skillData["title"] ?? "Untitled Skill"
+
+        sender.isEnabled = false
+
         Task {
-            let requesterId = UserDefaults.standard.integer(forKey: "id")
-            let toEmail = skillData["contactEmail"] ?? ""
-            let skillTitle = skillData["title"] ?? "Untitled Skill"
-
-            let user = await getUserById(id: requesterId)
-            let fromEmail = user.indices.contains(1) ? user[1] : ""
-
-            guard let posterIdString = skillData["poster_id"],
-                  let posterId = Int(posterIdString) else {
-                print("❌ poster_id missing")
-                return
-            }
-
-            guard let skillPostIdString = skillData["id"],
-                  let skillPostId = Int(skillPostIdString) else {
-                print("❌ Skill post ID missing")
-                return
-            }
-
-            await addNotification(
+            let notificationCreated = await addNotification(
                 user_id: posterId,
                 message: "Please approve or decline this request.",
                 type: "skill_request",
@@ -90,39 +131,52 @@ class SkillDetailsViewController: UIViewController, MFMailComposeViewControllerD
             )
 
             await MainActor.run {
-                self.showMailComposer(
-                    toEmail: toEmail,
-                    FromEmail: fromEmail
-                )
+                sender.isEnabled = true
+
+                if notificationCreated {
+                    let alert = UIAlertController(
+                        title: "Request Sent",
+                        message: "Your skill request has been sent successfully.",
+                        preferredStyle: .alert
+                    )
+
+                    alert.addAction(
+                        UIAlertAction(
+                            title: "OK",
+                            style: .default
+                        )
+                    )
+
+                    self.present(
+                        alert,
+                        animated: true
+                    )
+                } else {
+                    self.showAlert(
+                        message: "Failed to send the skill request. Please try again."
+                    )
+                }
             }
         }
     }
-    
-    private func showMailComposer(toEmail: String, FromEmail: String) {
-        guard MFMailComposeViewController.canSendMail() else {
-            print("cant send mail")
-            return
-        }
 
-        let composer = MFMailComposeViewController()
-        composer.mailComposeDelegate = self
-        composer.setSubject(emailSubject)
-        composer.setMessageBody(emailBody, isHTML: false)
-        composer.setToRecipients([toEmail])
-        composer.setPreferredSendingEmailAddress(FromEmail)
+    private func showAlert(message: String) {
+        let alert = UIAlertController(
+            title: "SkillHub",
+            message: message,
+            preferredStyle: .alert
+        )
 
-        present(composer, animated: true)
-    }
+        alert.addAction(
+            UIAlertAction(
+                title: "OK",
+                style: .default
+            )
+        )
 
-    func mailComposeController(
-        _ controller: MFMailComposeViewController,
-        didFinishWith result: MFMailComposeResult,
-        error: (any Error)?
-    ) {
-        if let error = error {
-            print("email sent with the error: \(error)")
-        }
-
-        controller.dismiss(animated: true)
+        present(
+            alert,
+            animated: true
+        )
     }
 }

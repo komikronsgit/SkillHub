@@ -189,31 +189,53 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
             guard let requesterString = notification["requester_id"],
                   let requesterId = Int(requesterString) else {
-                print("❌ requester_id missing")
+                await MainActor.run {
+                    self.showAlert(
+                        title: "Request Failed",
+                        message: "Requester information is missing."
+                    )
+                }
                 return
             }
 
             guard let skillPostString = notification["skill_post_id"],
                   let skillPostId = Int(skillPostString) else {
-                print("❌ skill_post_id missing")
+                await MainActor.run {
+                    self.showAlert(
+                        title: "Request Failed",
+                        message: "Skill post information is missing."
+                    )
+                }
+                return
+            }
+
+            guard let notificationId = notification["id"] else {
+                await MainActor.run {
+                    self.showAlert(
+                        title: "Request Failed",
+                        message: "Notification information is missing."
+                    )
+                }
                 return
             }
 
             let posterId = UserDefaults.standard.integer(forKey: "id")
 
-            var conversationId: Int?
-
             if status == "approved" {
-                conversationId = await createOrGetConversation(
+                let conversationId = await createOrGetConversation(
                     skillPostId: skillPostId,
                     requesterId: requesterId,
                     posterId: posterId
                 )
 
-                if let conversationId {
-                    print("✅ Conversation ready: \(conversationId)")
-                } else {
-                    print("❌ Conversation could not be created")
+                guard conversationId != nil else {
+                    await MainActor.run {
+                        self.showAlert(
+                            title: "Approval Failed",
+                            message: "The conversation could not be created."
+                        )
+                    }
+                    return
                 }
             }
 
@@ -227,7 +249,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     "Your request for \(skillTitle) was declined."
             }
 
-            await addNotification(
+            let decisionNotificationCreated = await addNotification(
                 user_id: requesterId,
                 message: decisionMessage,
                 type: "skill_decision",
@@ -237,14 +259,40 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 status: status
             )
 
-            if let notificationId = notification["id"] {
-                await updateNotificationStatus(
-                    id: notificationId,
-                    status: status
-                )
+            guard decisionNotificationCreated else {
+                await MainActor.run {
+                    self.showAlert(
+                        title: "Request Failed",
+                        message: "The requester could not be notified."
+                    )
+                }
+                return
             }
 
-            fetchNotifications()
+            let statusUpdated = await updateNotificationStatus(
+                id: notificationId,
+                status: status
+            )
+
+            await MainActor.run {
+                if statusUpdated {
+                    self.fetchNotifications()
+
+                    self.showAlert(
+                        title: status == "approved"
+                            ? "Request Approved"
+                            : "Request Declined",
+                        message: status == "approved"
+                            ? "The request was approved successfully."
+                            : "The request was declined successfully."
+                    )
+                } else {
+                    self.showAlert(
+                        title: "Update Failed",
+                        message: "The notification status could not be updated."
+                    )
+                }
+            }
         }
     }
 
@@ -268,17 +316,39 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         let remove = UIContextualAction(style: .destructive, title: "Remove") { _, _, completion in
             Task {
-                if let id = notification["id"] {
-                    await deleteNotification(id: id)
+                guard let id = notification["id"] else {
+                    await MainActor.run {
+                        completion(false)
+                    }
+                    return
                 }
+
+                let deleted = await deleteNotification(id: id)
 
                 await MainActor.run {
-                    self.notifications.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                    if deleted {
+                        self.notifications.remove(at: indexPath.row)
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                        completion(true)
+                    } else {
+                        let alert = UIAlertController(
+                            title: "Delete Failed",
+                            message: "Unable to delete the notification. Please try again.",
+                            preferredStyle: .alert
+                        )
+
+                        alert.addAction(
+                            UIAlertAction(
+                                title: "OK",
+                                style: .default
+                            )
+                        )
+
+                        self.present(alert, animated: true)
+                        completion(false)
+                    }
                 }
             }
-
-            completion(true)
         }
 
         if notification["type"] == "skill_request",
@@ -288,7 +358,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         return UISwipeActionsConfiguration(actions: [remove])
     }
-
     @IBAction func marketplaceTapped(_ sender: Any) {
         tabBarController?.selectedIndex = 1
     }
@@ -297,5 +366,25 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         tabBarController?.selectedIndex = 2
     }
 
-    
+    private func showAlert(
+        title: String,
+        message: String
+    ) {
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+
+        alert.addAction(
+            UIAlertAction(
+                title: "OK",
+                style: .default
+            )
+        )
+
+        present(alert, animated: true)
+    }
+
 }
+    

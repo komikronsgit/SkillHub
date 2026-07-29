@@ -88,7 +88,7 @@
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" title="Sign Up"/>
                                                         <connections>
-                                                            <action selector="signUpTapped:" destination="ng4-6b-QLv" eventType="touchUpInside" id="XBj-Tx-jLU"/>
+                                                            <action selector="signUpTapped:" destination="ng4-6b-QLv" eventType="touchUpInside" id="sTO-CK-ya9"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -1697,6 +1697,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0vF-b5-vTj" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="VSB-6v-qky">
+                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1714,6 +1715,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZWd-az-9Na" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dOP-Sc-6nn">
+                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1731,6 +1733,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Fxc-XG-4Ou" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sSV-Ef-D2R">
+                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1849,6 +1852,7 @@
                     <tabBarItem key="tabBarItem" title="AI" image="sparkles" catalog="system" selectedImage="sparkles" id="5C3-X1-ea0"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="AHw-Hd-ZKF">
+                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1867,6 +1871,7 @@
                     <tabBarItem key="tabBarItem" title="Profile" image="person.fill" catalog="system" selectedImage="person" id="ycH-1k-AE2"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ueu-0g-t98">
+                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1884,6 +1889,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zsc-KP-brB" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="r4Q-gd-noa">
+                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1902,6 +1908,7 @@
                     <tabBarItem key="tabBarItem" title="Marketplace" image="building.columns.fill" catalog="system" selectedImage="building.columns" id="PqE-Ab-Z7X"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="oVV-bi-QAb">
+                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1996,7 +2003,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" rowHeight="75" estimatedRowHeight="75" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Yvb-AA-77U">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
+                                <rect key="frame" x="0.0" y="144" width="375" height="551"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="conversationCell" id="pKc-3c-eT2">
@@ -2035,6 +2042,7 @@
                     <tabBarItem key="tabBarItem" title="Message" image="message" catalog="system" landscapeImage="message" id="vbW-QM-jPR"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mpg-P0-rfB">
+                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

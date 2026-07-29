@@ -233,7 +233,7 @@ class MarketplaceViewController: UIViewController, UITableViewDelegate, UITableV
         }
 
         Task {
-            await deleteSkillPost(id: id)
+            _ = await deleteSkillPost(id: id)
 
             await MainActor.run {
                 self.skillPosts.remove(

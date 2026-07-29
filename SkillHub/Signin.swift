@@ -62,14 +62,22 @@ class SignInViewController: UIViewController {
     }
 
     @IBAction func signUpTapped(_ sender: UIButton) {
-
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
-        let signUpVC = storyboard.instantiateViewController(withIdentifier: "SignUp")
+        let signUpVC = storyboard.instantiateViewController(
+            withIdentifier: "SignUp"
+        )
 
-        navigationController?.pushViewController(signUpVC, animated: true)
+        if let navigationController = navigationController {
+            navigationController.pushViewController(
+                signUpVC,
+                animated: true
+            )
+        } else {
+            signUpVC.modalPresentationStyle = .fullScreen
+            present(signUpVC, animated: true)
+        }
     }
-
     func showAlert(message: String) {
 
         let alert = UIAlertController(

@@ -71,8 +71,19 @@ func getUserById(id: Int) async -> [String] {
     return [name, email, password, about_me, program, school]
 }
 
-func addUser(name: String, email: String, password: String, about_me: String, program: String, school: String) async -> Void {
-    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
+func addUser(
+    name: String,
+    email: String,
+    password: String,
+    about_me: String,
+    program: String,
+    school: String
+) async -> Bool {
+    
+    let client = SupabaseClient(
+        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
+        supabaseKey: Config.supabaseAnonKey
+    )
     
     struct User: Encodable {
         let name: String
@@ -83,40 +94,79 @@ func addUser(name: String, email: String, password: String, about_me: String, pr
         let school: String
     }
     
-    let user = User(name: name, email: email, password: password, about_me: about_me, program: program, school: school)
+    let user = User(
+        name: name,
+        email: email,
+        password: password,
+        about_me: about_me,
+        program: program,
+        school: school
+    )
     
     do {
         try await client
             .from("User")
             .insert(user)
             .execute()
-    } catch let error {
-        print("failed to add user: \(error)")
+        
+        return true
+        
+    } catch {
+        print("Failed to add user: \(error)")
+        return false
     }
 }
 
-func updateUserById(id: Int, name: String, email: String, about_me: String, program: String, school: String) async -> Void {
-    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
-    
+func updateUserById(
+    id: Int,
+    name: String,
+    email: String,
+    about_me: String,
+    program: String,
+    school: String
+) async -> Bool {
+
+    let client = SupabaseClient(
+        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
+        supabaseKey: Config.supabaseAnonKey
+    )
+
+    struct UpdatedUser: Encodable {
+        let name: String
+        let email: String
+        let about_me: String
+        let program: String
+        let school: String
+    }
+
+    let updatedUser = UpdatedUser(
+        name: name,
+        email: email,
+        about_me: about_me,
+        program: program,
+        school: school
+    )
+
     do {
         try await client
             .from("User")
-            .update([
-                "name": name,
-                "email": email,
-                "about_me": about_me,
-                "program": program,
-                "school": school,
-            ])
+            .update(updatedUser)
             .eq("id", value: id)
             .execute()
-    } catch let error {
-        print("failed to update user: \(error)")
+
+        return true
+
+    } catch {
+        print("Failed to update user: \(error)")
+        return false
     }
 }
 
-func updateUsersPasswordById(id: Int, password: String) async -> Void {
-    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
+func updateUsersPasswordById(id: Int, password: String) async -> Bool {
+    let client = SupabaseClient(
+        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
+        supabaseKey: Config.supabaseAnonKey
+    )
     
     do {
         try await client
@@ -124,49 +174,88 @@ func updateUsersPasswordById(id: Int, password: String) async -> Void {
             .update(["password": password])
             .eq("id", value: id)
             .execute()
-    } catch let error {
-        print("failed to update users password: \(error)")
+        
+        return true
+        
+    } catch {
+        print("Failed to update user's password: \(error)")
+        return false
     }
 }
 
-func deleteUserById(id: Int) async -> Void {
+func deleteUserById(id: Int) async -> Bool {
     let client = SupabaseClient(
         supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
         supabaseKey: Config.supabaseAnonKey
     )
-    
+
     struct User: Decodable {
         let profile_pic_path: String?
     }
-    
+
     do {
+        try await client
+            .from("Notification")
+            .delete()
+            .eq("user_id", value: id)
+            .execute()
+
+        try await client
+            .from("Notification")
+            .delete()
+            .eq("requester_id", value: id)
+            .execute()
+
+        try await client
+            .from("Message")
+            .delete()
+            .eq("sender_id", value: id)
+            .execute()
+
+        try await client
+            .from("Conversation")
+            .delete()
+            .eq("requester_id", value: id)
+            .execute()
+
+        try await client
+            .from("Conversation")
+            .delete()
+            .eq("poster_id", value: id)
+            .execute()
+
         try await client
             .from("SkillPost")
             .delete()
             .eq("poster_id", value: id)
             .execute()
-        
-        let user: [User] = try await client
+
+        let users: [User] = try await client
             .from("User")
             .select("profile_pic_path")
             .eq("id", value: id)
             .execute()
             .value
-        
-        if let path = user.first?.profile_pic_path, !path.isEmpty {
+
+        if let path = users.first?.profile_pic_path,
+           !path.isEmpty {
             try await client.storage
                 .from("profile_pics")
                 .remove(paths: [path])
         }
-        
+
         try await client
             .from("User")
             .delete()
             .eq("id", value: id)
             .execute()
-        
-    } catch let error {
-        print("failed to delete user: \(error)")
+
+        print("✅ User account deleted successfully")
+        return true
+
+    } catch {
+        print("❌ Failed to delete user: \(error)")
+        return false
     }
 }
 
@@ -219,8 +308,19 @@ func getAllSkillPosts() async -> [[String: String]] {
     return posts
 }
 
-func addSkillPost(title: String, category: String, description: String, availability: String, contact_email: String, poster_id: Int) async -> Void {
-    let client = SupabaseClient(supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!, supabaseKey: Config.supabaseAnonKey)
+func addSkillPost(
+    title: String,
+    category: String,
+    description: String,
+    availability: String,
+    contact_email: String,
+    poster_id: Int
+) async -> Bool {
+    
+    let client = SupabaseClient(
+        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
+        supabaseKey: Config.supabaseAnonKey
+    )
     
     struct SkillPost: Encodable {
         let title: String
@@ -231,19 +331,29 @@ func addSkillPost(title: String, category: String, description: String, availabi
         let poster_id: Int
     }
     
-    let user = SkillPost(title: title, category: category, description: description, availability: availability, contact_email: contact_email, poster_id: poster_id)
+    let skillPost = SkillPost(
+        title: title,
+        category: category,
+        description: description,
+        availability: availability,
+        contact_email: contact_email,
+        poster_id: poster_id
+    )
     
     do {
         try await client
             .from("SkillPost")
-            .insert(user)
+            .insert(skillPost)
             .execute()
-    } catch let error {
-        print("failed to add skill post: \(error)")
+        
+        return true
+        
+    } catch {
+        print("Failed to add skill post: \(error)")
+        return false
     }
 }
-
-func deleteSkillPost(id: String) async {
+func deleteSkillPost(id: String) async -> Bool {
 
     let client = SupabaseClient(
         supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
@@ -261,12 +371,13 @@ func deleteSkillPost(id: String) async {
             .execute()
 
         print("✅ Deleted successfully")
+        return true
 
     } catch {
         print("❌ Delete failed: \(error)")
+        return false
     }
 }
-
 func getNotificationsByUserId(id: Int) async -> [[String: String]] {
     let client = SupabaseClient(
         supabaseURL: URL(
@@ -319,37 +430,44 @@ func getNotificationsByUserId(id: Int) async -> [[String: String]] {
 func addNotification(
     user_id: Int,
     message: String,
-    type: String = "general",
-    skillTitle: String = "",
-    skillPostId: Int? = nil,
-    requesterId: Int? = nil,
-    status: String = "info"
-) async {
+    type: String,
+    skillTitle: String,
+    skillPostId: Int?,
+    requesterId: Int?,
+    status: String
+) async -> Bool {
 
     let client = SupabaseClient(
-        supabaseURL: URL(
-            string: "https://eopbyxioxjnyeyxcuikg.supabase.co"
-        )!,
+        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
         supabaseKey: Config.supabaseAnonKey
     )
 
     struct Notification: Encodable {
-        let user_id: Int
+        let userId: Int
         let message: String
         let type: String
-        let skill_title: String
-        let skill_post_id: Int?
-        let requester_id: Int?
+        let skillTitle: String
+        let skillPostId: Int?
+        let requesterId: Int?
         let status: String
-    }
 
+        enum CodingKeys: String, CodingKey {
+            case userId = "user_id"
+            case message
+            case type
+            case skillTitle = "skill_title"
+            case skillPostId = "skill_post_id"
+            case requesterId = "requester_id"
+            case status
+        }
+    }
     let notification = Notification(
-        user_id: user_id,
+        userId: user_id,
         message: message,
         type: type,
-        skill_title: skillTitle,
-        skill_post_id: skillPostId,
-        requester_id: requesterId,
+        skillTitle: skillTitle,
+        skillPostId: skillPostId,
+        requesterId: requesterId,
         status: status
     )
 
@@ -359,15 +477,21 @@ func addNotification(
             .insert(notification)
             .execute()
 
-        print("✅ Notification added")
-
+        return true
     } catch {
-        print("❌ Failed to add notification: \(error)")
+        print("Failed to add notification: \(error)")
+        return false
     }
 }
-func updateNotificationStatus(id: String, status: String) async {
+
+func updateNotificationStatus(
+    id: String,
+    status: String
+) async -> Bool {
     let client = SupabaseClient(
-        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
+        supabaseURL: URL(
+            string: "https://eopbyxioxjnyeyxcuikg.supabase.co"
+        )!,
         supabaseKey: Config.supabaseAnonKey
     )
 
@@ -377,14 +501,19 @@ func updateNotificationStatus(id: String, status: String) async {
             .update(["status": status])
             .eq("id", value: id)
             .execute()
+
+        return true
     } catch {
-        print("❌ failed to update notification: \(error)")
+        print("❌ Failed to update notification: \(error)")
+        return false
     }
 }
 
-func deleteNotification(id: String) async {
+func deleteNotification(id: String) async -> Bool {
     let client = SupabaseClient(
-        supabaseURL: URL(string: "https://eopbyxioxjnyeyxcuikg.supabase.co")!,
+        supabaseURL: URL(
+            string: "https://eopbyxioxjnyeyxcuikg.supabase.co"
+        )!,
         supabaseKey: Config.supabaseAnonKey
     )
 
@@ -394,8 +523,12 @@ func deleteNotification(id: String) async {
             .delete()
             .eq("id", value: id)
             .execute()
+
+        print("✅ Notification deleted")
+        return true
     } catch {
-        print("❌ failed to delete notification: \(error)")
+        print("❌ Failed to delete notification: \(error)")
+        return false
     }
 }
 // MARK: - Messaging Models

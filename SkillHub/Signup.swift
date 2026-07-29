@@ -39,32 +39,63 @@ class SignUpViewController: UIViewController {
                 showAlert(message: "Please fill all fields")
                 return
             }
-
+            
             if password != confirmPassword {
-
                 showAlert(message: "Passwords do not match")
                 return
             }
             
-            if !password.contains(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?.,(){}\[\]<>;:~`_\-+=\\|'"])[A-Za-z\d!@#$%^&*?.,(){}\[\]<>;:~`_\-+=\\|'"]{8,}$/) {
-                showAlert(message: "Password must be at least 8 characters long and contain at least 1 uppercase letter, lowercase letter, number, and special character")
+            if !password.contains(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*?.,(){}\[\]<>;:~`_\-+=\\|'"])[A-Za-z\d!@#$%^&*?.,(){}\[\]<>;:~`_\-+=\\|'"]{8,}$/
+            ) {
+                showAlert(
+                    message: "Password must be at least 8 characters long and contain at least 1 uppercase letter, lowercase letter, number, and special character"
+                )
                 return
             }
-
+            
             if !email.contains(/^[A-Za-z\d]+@[A-Za-z\d]+\.[a-z]{2,}$/) {
                 showAlert(message: "Please enter a valid email address")
                 return
             }
             
-            await addUser(name: name, email: email, password: password, about_me: "", program: "", school: "")
+            sender.isEnabled = false
             
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let createVC = storyboard.instantiateViewController(withIdentifier: "SignIn")
-            createVC.modalPresentationStyle = .fullScreen
-            present(createVC, animated: true)
+            let accountCreated = await addUser(
+                name: name,
+                email: email,
+                password: password,
+                about_me: "",
+                program: "",
+                school: ""
+            )
+            
+            sender.isEnabled = true
+            
+            if accountCreated {
+                showAccountCreatedAlert()
+            } else {
+                showAlert(
+                    message: "The account could not be created. The email may already be registered, or there may be a connection problem."
+                )
+            }
         }
     }
-
+    func showAccountCreatedAlert() {
+        let alert = UIAlertController(
+            title: "Account Created",
+            message: "Your SkillHub account has been created successfully.",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(
+            UIAlertAction(title: "Sign In", style: .default) { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
+            }
+        )
+        
+        present(alert, animated: true)
+    }
     @IBAction func signInTapped(_ sender: UIButton) {
 
         navigationController?.popViewController(animated: true)
